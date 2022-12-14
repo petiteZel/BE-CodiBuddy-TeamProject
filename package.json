@@ -4,6 +4,7 @@
   "description": "아래의 템플릿을 참고하여 README.md를 작성하세요.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
