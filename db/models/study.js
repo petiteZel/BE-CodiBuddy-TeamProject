@@ -44,9 +44,9 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db){
-    db.User.hasMany(db.Study_tag, { foreignKey: 'study_id', sourceKey: 'id'});
-    db.User.hasMany(db.Like, { foreignKey: 'study_id', sourceKey: 'id'});
-    db.User.hasMany(db.Recruit, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.Study.hasMany(db.Study_tag, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.Study.hasMany(db.Like, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.Study.hasMany(db.Recruit, { foreignKey: 'study_id', sourceKey: 'id'});
   }
 
 };
