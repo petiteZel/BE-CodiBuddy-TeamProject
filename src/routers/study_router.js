@@ -7,14 +7,14 @@ const { studyService } = require("../service");
 studyRouter.post("/register", async (req, res, next) => {
   try {
     const start_at = req.body.start_at;
-    const end_at = start_at.setMonth(start_at.getMonth + req.body.term);
+    const end_at = req.body.end_at;
     const is_online = req.body.is_online;
     const title = req.body.title;
     const contents = req.body.contents;
     const position = req.body.position;
     const price = req.body.price;
 
-    const newStudy = studyService.addStudy({
+    const newStudy = await studyService.addStudy({
       start_at,
       end_at,
       is_online,
