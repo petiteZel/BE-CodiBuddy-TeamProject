@@ -3,7 +3,7 @@ const { Study, Recruit, Like } = require("../db/models");
 const dayjs = require('dayjs')
 
 class StudyService {
-  constructor(study_model) {
+  constructor(study_model,recruit_model,like_model) {
     this.Study = study_model;
     this.Recruit = recruit_model;
     this.Like = like_model;
