@@ -1,35 +1,34 @@
-const express = require('express')
-const studyRouter = express.Router()
+const express = require("express");
+const studyRouter = express.Router();
 
-const { studyService } = require('../service')
+const { studyService } = require("../service");
 
 //스터디 생성
-studyRouter.post('/register', async (req,res,next)=>{
-    try {
-        const start_at = req.body.start_at;
-        const end_at = start_at.setMonth(start_at.getMonth + req.body.term);
-        const is_online = req.body.is_online;
-        const title = req.body.title;
-        const contents = req.body.contents;
-        const position = req.body.position;
-        const price = req.body.price;
+studyRouter.post("/register", async (req, res, next) => {
+  try {
+    const start_at = req.body.start_at;
+    const end_at = start_at.setMonth(start_at.getMonth + req.body.term);
+    const is_online = req.body.is_online;
+    const title = req.body.title;
+    const contents = req.body.contents;
+    const position = req.body.position;
+    const price = req.body.price;
 
-        const newStudy = studyService.addStudy({
-            start_at,
-            end_at,
-            is_online,
-            title,
-            contents,
-            position,
-            price
-        });
+    const newStudy = studyService.addStudy({
+      start_at,
+      end_at,
+      is_online,
+      title,
+      contents,
+      position,
+      price,
+    });
 
-        res.status(201).json(newStudy)
-
-    } catch(error) {
-        next(error);
-    }
-})
+    res.status(201).json(newStudy);
+  } catch (error) {
+    next(error);
+  }
+});
 
 //스터디 전체 리스트 읽어오기
 

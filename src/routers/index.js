@@ -1,3 +1,3 @@
-const studyRouter = require('./study_router')
+const studyRouter = require("./study_router");
 
-module.exports = { studyRouter, }
+module.exports = { studyRouter };

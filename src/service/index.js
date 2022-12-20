@@ -1,3 +1,3 @@
-const studyService = require('./study_service')
+const studyService = require("./study_service");
 
-module.exports = { studyService }
+module.exports = { studyService };
