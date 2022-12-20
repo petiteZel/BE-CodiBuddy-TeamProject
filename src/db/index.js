@@ -2,7 +2,7 @@
 const Sequelize = require('sequelize');
 const {Tag, User, Study, User_tag, Study_tag, Like, Recruit} = require('./models')
 const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config')[env];
+const config = require('../../config/config')[env];
 const db = {};
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
