@@ -6,13 +6,9 @@ const { studyService, Recruit, Like } = require("../service");
 //스터디 생성
 studyRouter.post("/register", async (req, res, next) => {
   try {
-    const start_at = req.body.start_at;
-    const end_at = req.body.end_at;
-    const is_online = req.body.is_online;
-    const title = req.body.title;
-    const contents = req.body.contents;
-    const position = req.body.position;
-    const price = req.body.price;
+    const { start_at, end_at, is_online, title, contents, position, price } = req.body
+    
+    // end_at 계산
 
     const newStudy = await studyService.studyService.addStudy({
       start_at,
@@ -44,16 +40,27 @@ studyRouter.get("/", async (req,res,next)=> {
 
 //내 스터디 전체리스트만 가져오기 (loginrequired)
 // studyRouter.get("/mystudy", loginRequired, async (req,res,next)=> {
-studyRouter.get("/mystudy", async (req,res,next)=> {
+studyRouter.get("/mystudy/attend", async (req,res,next)=> {
     try{
-        const userId = req.currentUserId;
-        const myStudyList = await studyService.studyService.getMyStudy(userId);
-        res.status(200).json(myStudyList);
+        // const userId = req.currentUserId;
+        const userId = 1
+        const myAttendingStudyList = await studyService.studyService.getMyAttendingStudy(userId);
+        res.status(200).json(myAttendingStudyList);
     }catch(error){
         next(error)
     }
 })
 
+studyRouter.get("/mystudy/expire", async (req,res,next)=> {
+    try{
+        // const userId = req.currentUserId;
+        const userId = 1
+        const myExpiredStudyList = await studyService.studyService.getMyExpiredStudy(userId);
+        res.status(200).json(myExpiredStudyList);
+    }catch(error){
+        next(error)
+    }
+})
 //상태에 따라 참가 / 안참가하는...
 //찜한 스터디 읽어오기
 module.exports = studyRouter;
