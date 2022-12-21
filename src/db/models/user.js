@@ -47,4 +47,6 @@ module.exports = class User extends Sequelize.Model {
     db.User.hasMany(db.Like, { foreignKey: 'user_id', sourceKey: 'id'});
     db.User.hasMany(db.Recruit, { foreignKey: 'user_id', sourceKey: 'id'});
   }
+  
 };
+
