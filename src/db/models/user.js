@@ -30,6 +30,11 @@ module.exports = class User extends Sequelize.Model {
         type: Sequelize.STRING(200),
         allowNull: true,
       },
+      point: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        allowNull: false,
+        defaultValue: 5000
+      },
     }, {
       sequelize,
       timestamps: false, //creatat+deleteat
@@ -44,7 +49,12 @@ module.exports = class User extends Sequelize.Model {
 
   static associate(db){
     db.User.hasMany(db.User_tag, { foreignKey: 'user_id', sourceKey: 'id'});
+    db.User_tag.belongsTo(db.User);
     db.User.hasMany(db.Like, { foreignKey: 'user_id', sourceKey: 'id'});
+    db.Like.belongsTo(db.User);
     db.User.hasMany(db.Recruit, { foreignKey: 'user_id', sourceKey: 'id'});
+    db.Recruit.belongsTo(db.User);
+    db.User.hasMany(db.Comment, { foreignKey: 'user_id', sourceKey: 'id'});
+    db.Recruit.belongsTo(db.Comment);
   }
 };

@@ -6,10 +6,16 @@ module.exports = class User extends Sequelize.Model {
       start_at: {
         type: Sequelize.DATEONLY,
         allowNull: false,
+        validate: {
+          isDate: true
+        }
       },
       end_at: {
         type: Sequelize.DATEONLY,
         allowNull: false,
+        validate: {
+          isDate: true
+        }
       },
       is_online: {
         type: Sequelize.BOOLEAN,
@@ -33,7 +39,7 @@ module.exports = class User extends Sequelize.Model {
       },
     }, {
       sequelize,
-      timestamps: false, //creatat+delete
+      timestamps: true, //creatat+delete
       underscored: true, //스네이크케이스로 이름변경
       modelName: 'Study',
       tableName: 'studies',
@@ -45,9 +51,13 @@ module.exports = class User extends Sequelize.Model {
 
   static associate(db){
     db.Study.hasMany(db.Study_tag, { foreignKey: 'study_id', sourceKey: 'id'});
-    // db.Study.belongsto()
+    db.Study_tag.belongsTo(db.Study)
     db.Study.hasMany(db.Like, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.Like.belongsTo(db.Study)
     db.Study.hasMany(db.Recruit, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.Recruit.belongsTo(db.Study)
+    db.Study.hasMany(db.Comment, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.Recruit.belongsTo(db.Comment)
   }
 
 };

@@ -1,6 +1,6 @@
 //models/index.js
 const Sequelize = require('sequelize');
-const {Tag, User, Study, User_tag, Study_tag, Like, Recruit} = require('./models')
+const {Tag, User, Study, User_tag, Study_tag, Like, Recruit, Comment} = require('./models')
 const env = process.env.NODE_ENV || 'development';
 const config = require('../../config/config')[env];
 const db = {};
@@ -17,6 +17,7 @@ db.User_tag = User_tag;
 db.Study_tag = Study_tag;
 db.Like = Like;
 db.Recruit = Recruit;
+db.Comment = Comment;
 
 Tag.init(sequelize);
 User.init(sequelize);
@@ -25,6 +26,7 @@ User_tag.init(sequelize);
 Study_tag.init(sequelize);
 Like.init(sequelize);
 Recruit.init(sequelize);
+Comment.init(sequelize);
 
 Tag.associate(db)
 User.associate(db)

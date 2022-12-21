@@ -5,6 +5,7 @@ const User_tag = require('./user_tag')
 const Study_tag = require('./study_tag')
 const Like = require('./like')
 const Recruit = require('./recruit')
+const Comment = require('./comment')
 
 
-module.exports = { Tag, User, Study, User_tag, Study_tag, Like, Recruit }
+module.exports = { Tag, User, Study, User_tag, Study_tag, Like, Recruit, Comment }
