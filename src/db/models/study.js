@@ -57,7 +57,7 @@ module.exports = class User extends Sequelize.Model {
     db.Study.hasMany(db.Recruit, { foreignKey: 'study_id', sourceKey: 'id'});
     db.Recruit.belongsTo(db.Study)
     db.Study.hasMany(db.Comment, { foreignKey: 'study_id', sourceKey: 'id'});
-    db.Recruit.belongsTo(db.Comment)
+    db.Comment.belongsTo(db.Comment)
   }
 
 };

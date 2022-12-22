@@ -13,7 +13,9 @@ class StudyService {
   async addStudy(studyData) {
     const startPoint = dayjs(studyData.start_at).format("YYYY-MM-DD");
     const duration = Number(studyData.end_at);
-    studyData.end_at = startPoint.add(duration, "M").format("YYYY-MM-DD");
+    studyData.end_at = dayjs(startPoint)
+      .add(duration, "M")
+      .format("YYYY-MM-DD");
 
     const createStudy = await this.Study.create(studyData);
 
@@ -26,48 +28,48 @@ class StudyService {
     return findAllStudy;
   }
 
-  //모임 상세보기 (아이디로 하나만 불러오기)
-  async getStudyDetail(studyId){
+  //코치님 이부분입니드아!!
+  //모임 상세보기 (아이디로 하나만 불러오기 - 포스트맨에서 확인 안됨)
+  async getStudyDetail(studyId) {
     const getOneStudy = await this.Study.findOne({
-        where:{
-            study_id: studyId
-        }
-    })
-
+      where: {
+        id: Number(studyId),
+      },
+    });
+    console.log(getOneStudy);
     return getOneStudy;
-
   }
 
   //태그별 스터디
-  async getStudyFromTag(tagId){
+  async getStudyFromTag(tagId) {
     const findStudyTag = await this.Study_tag.findAll({
-        where: {
-            tag_id:tagId
-        }
+      where: {
+        tag_id: tagId,
+      },
     });
     const findTagStudy = await findStudyTag.getStudy();
 
     return findTagStudy;
   }
-  
-  //내 모임 삭제
-  async deleteMyStudy(userId,studyId){
-    this.Recruit.destroy({
-        where: {
-            user_id: userId,
-            study_id: studyId
-        }
-    })
+
+  //모임 삭제
+  async deleteMyStudy(studyId) {
+    this.Study.destroy({
+      where: {
+        id: Number(studyId),
+      },
+    });
   }
 
+  //수정 필요함!!
   //내 모임 수정
-  async patchMyStudy(userId, studyId, updateData){
-    const updateStudy = this.Study.update(updateData,{
-        where:{
-            user_id: userId,
-            study_id: studyId
-        }
-    })
+  async patchMyStudy(userId, studyId, updateData) {
+    const updateStudy = this.Study.update(updateData, {
+      where: {
+        user_id: userId,
+        study_id: studyId,
+      },
+    });
 
     return updateStudy;
   }
@@ -96,8 +98,8 @@ class StudyService {
       ],
     });
 
-    return findMyAttendingStudy.map((e)=>{
-        return e.Study
+    return findMyAttendingStudy.map((e) => {
+      return e.Study;
     });
   }
 
@@ -125,8 +127,8 @@ class StudyService {
         },
       ],
     });
-    return findMyExpiredStudy.map((e)=>{
-        return e.Study
+    return findMyExpiredStudy.map((e) => {
+      return e.Study;
     });
   }
 }

@@ -1,31 +1,34 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
 module.exports = class Comment extends Sequelize.Model {
-    static init(sequelize) {
-      return super.init({
+  static init(sequelize) {
+    return super.init(
+      {
         study_id: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            primaryKey: true
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          primaryKey: true,
         },
         user_id: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            primaryKey: true
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          primaryKey: true,
         },
         commentary: {
-          type: Sequelize.TEXT('tiny'),
+          type: Sequelize.TEXT("tiny"),
           allowNull: false,
-        }
-      }, {
-      sequelize,
-      timestamps: true, //creatat+delete
-      underscored: true, //스네이크케이스로 이름변경
-      modelName: 'Comment',
-      tableName: 'comments',
-      paranoid: false, //삭제시 완전삭제x -> 로그남김
-      charset: 'utf8',
-      collate: 'utf8_general_ci',
-    });
-    }
-}
+        },
+      },
+      {
+        sequelize,
+        timestamps: true, //creatat+delete
+        underscored: true, //스네이크케이스로 이름변경
+        modelName: "Comment",
+        tableName: "comments",
+        paranoid: false, //삭제시 완전삭제x -> 로그남김
+        charset: "utf8",
+        collate: "utf8_general_ci",
+      }
+    );
+  }
+};
