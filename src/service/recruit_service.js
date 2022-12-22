@@ -46,6 +46,6 @@ class RecruitService {
   }
 }
 
-const recruitService = new RecruitService(Recruit, Recruit, Like);
+const recruitService = new RecruitService(Recruit);
 
 module.exports = { recruitService };
