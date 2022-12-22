@@ -3,22 +3,27 @@ const studyRouter = express.Router();
 
 const { studyService, recruitService, studyTagService } = require("../service");
 
-//스터디 생성 (완료)
+//스터디 생성 (완료)<recruit, study, study_tag 생성>
 studyRouter.post("/register", async (req, res, next) => {
   try {
     const userId = 1;
     const studyData = req.body.study;
+    const tag = req.body.tag;
     const newStudy = await studyService.studyService.addStudy(studyData);
     const studyId = newStudy.dataValues.id;
     await recruitService.recruitService.addRecruit(userId, studyId);
+    await studyTagService.studyTagService.addStudyTag(tag, studyId);
 
-    res.status(201).json(newStudy);
+    setTimeout(async ()=>{
+        const studyTag = await studyTagService.studyTagService.getFromStudy(studyId)
+        res.status(201).json({"study":newStudy,"tag":studyTag});
+    })
   } catch (error) {
     next(error);
   }
 });
 
-//모든 스터디 불러오기 (완료)
+//모든 스터디 불러오기 (완료)<study, study_tag>
 studyRouter.get("/", async (req, res, next) => {
   try {
     const allStudyList = await studyService.studyService.getAllStudy();

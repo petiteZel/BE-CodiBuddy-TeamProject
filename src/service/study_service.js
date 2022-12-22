@@ -1,4 +1,4 @@
-const { User } = require("../db");
+const { User, Study_tag } = require("../db");
 const { Study, Recruit, Like } = require("../db/models");
 const dayjs = require("dayjs");
 const { Op } = require("sequelize");
@@ -24,9 +24,9 @@ class StudyService {
 
   async getAllStudy() {
     const findAllStudy = await this.Study.findAll({
-        where:{
-            id:2
-        }
+      include: {
+        model: Study_tag,
+      },
     });
 
     return findAllStudy;
@@ -38,7 +38,10 @@ class StudyService {
     const getOneStudy = await this.Study.findOne({
       where: {
         id: Number(studyId),
-      }
+      },
+      include: {
+        model: Study_tag,
+      },
     });
     console.log(getOneStudy);
     return getOneStudy;
@@ -97,6 +100,9 @@ class StudyService {
             end_at: {
               [Op.gte]: now.format("YYYY-MM-DD"),
             },
+          },
+          include: {
+            model: Study_tag,
           },
         },
       ],
