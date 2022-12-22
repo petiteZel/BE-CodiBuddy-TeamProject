@@ -10,7 +10,7 @@ studyRouter.post("/register", async (req, res, next) => {
     const newStudy = await studyService.studyService.addStudy(req.body);
     const studyId = newStudy.dataValues.id;
     await recruitService.recruitService.addRecruit(userId, studyId);
-
+    //스터디 태그 post
     res.status(201).json(newStudy);
   } catch (error) {
     next(error);
