@@ -1,13 +1,14 @@
 const express = require("express");
 const studyRouter = express.Router();
 
-const { studyService, recruitService } = require("../service");
+const { studyService, recruitService, studyTagService } = require("../service");
 
 //스터디 생성 (완료)
 studyRouter.post("/register", async (req, res, next) => {
   try {
     const userId = 1;
-    const newStudy = await studyService.studyService.addStudy(req.body);
+    const studyData = req.body.study;
+    const newStudy = await studyService.studyService.addStudy(studyData);
     const studyId = newStudy.dataValues.id;
     await recruitService.recruitService.addRecruit(userId, studyId);
 
