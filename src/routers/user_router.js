@@ -56,7 +56,7 @@ userRouter.post("/login", async (req, res, next) => {
 
 
 
-// 회원 본인 정보 조회
+// //회원 본인 정보 조회
 // userRouter.get("/user", loginRequired, async function (req, res, next) {
 //   try {
 //     const Id = req.currentUserId;
