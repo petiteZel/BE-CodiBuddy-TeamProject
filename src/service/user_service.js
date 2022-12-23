@@ -154,7 +154,9 @@ class UserService {
   //특정 유저 삭제
   async deleteUserData(id) {
     const deletedCount = await this.User.destroy({
-      where: { id: 4},
+      where: {
+        id: String(id),
+      },
     }); 
 
     // 삭제에 실패한 경우, 에러 메시지 반환

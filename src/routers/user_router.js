@@ -133,14 +133,14 @@ userRouter.post("/login", async (req, res, next) => {
 
 
 
-//회원탈퇴
+//회원탈퇴 (loginRequired 수정필요)
 userRouter.delete(
   "/delete/:id",
   /*loginRequired,*/
   async function (req, res, next) {
     try {
       // params로부터 id를 가져옴
-      const id = req.params._id;
+      const id = req.params.id;
 
       const deleteResult = await userService.userService.deleteUserData(id);
 
