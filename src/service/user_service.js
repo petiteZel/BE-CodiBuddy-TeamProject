@@ -168,7 +168,7 @@ class UserService {
 }
 
 
-const userService = new UserService(User);
+
 
 //export { userService };
-module.exports = { userService };
+module.exports = new UserService(User);

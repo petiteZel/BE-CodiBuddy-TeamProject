@@ -16,7 +16,7 @@ userRouter.post("/register", async (req, res, next) => {
     const introduce = req.body.introduce;
 
     //위 데이터를 유저 db에 추가하기
-    const newUser = await userService.userService.addUser({
+    const newUser = await userService.addUser({
       user_id,
       pw,
       nickname,
@@ -43,7 +43,7 @@ userRouter.post("/login", async (req, res, next) => {
     const pw = req.body.pw;
 
     // 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
-    const userToken = await userService.userService.getUserToken({ user_id, pw });
+    const userToken = await userService.getUserToken({ user_id, pw });
 
     // jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
     res.status(200).json(userToken);
@@ -142,7 +142,7 @@ userRouter.delete(
       // params로부터 id를 가져옴
       const id = req.params.id;
 
-      const deleteResult = await userService.userService.deleteUserData(id);
+      const deleteResult = await userService.deleteUserData(id);
 
       res.status(200).json(deleteResult);
     } catch (error) {
