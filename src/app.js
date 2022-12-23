@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/api/studies', studyRouter)
-app.use('/api/users', userRouter)
+app.use('/api/studie', studyRouter)
+app.use('/api/user', userRouter)
 
 module.exports = { app }
