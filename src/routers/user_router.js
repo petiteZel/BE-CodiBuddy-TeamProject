@@ -56,17 +56,17 @@ userRouter.post("/login", async (req, res, next) => {
 
 
 
-// //회원 본인 정보 조회
-// userRouter.get("/user", loginRequired, async function (req, res, next) {
-//   try {
-//     const Id = req.currentUserId;
-//     const currentUserInfo = await userService.getUserData(Id);
-
-//     res.status(200).json(currentUserInfo);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+//회원 본인 정보 조회
+userRouter.get("/", /*loginRequired,*/ async function (req, res, next) {
+  try {
+    //const Id = req.currentUserId;
+    const userId = 1;
+    const currentUserInfo = await userService.getUserData(userId);
+    res.status(200).json(currentUserInfo);
+  } catch (error) {
+    next(error);
+  }
+});
 
 
 

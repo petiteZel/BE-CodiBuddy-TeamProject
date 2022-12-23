@@ -102,20 +102,27 @@ class UserService {
     return { token };
   }
 
-  // //특정 사용자 정보 조회
-  // async getUserData(usersInfo) {
-  //   const { user_id, pw, nickname, email, introduce, profile_image } = usersInfo;
-  //   const users = await this.User.findOne({
-  //     where: { user_id, pw, nickname, email, introduce, profile_image  },
-  //   }); 
+  //특정 사용자 정보 조회
+  async getUserData(id) {
+    const getOneStudy = await this.User.findAll({
+      where: { id },
+    }); 
+    // const getOneStudy = await this.Study.findOne({
+    //   where: {
+    //     id: String(id),
+    //   },
+      // include: {
+      //   model: this.Study_tag,
+      // },
+    // });
 
-  //   // db에서 찾지 못한 경우, 에러 메시지 반환
-  //   if (!users) {
-  //     throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
-  //   }
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!getOneStudy) {
+      throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
+    }
 
-  //   return users;
-  // }
+    return getOneStudy;
+  }
 
   // 사용자 목록을 받음.
   // async getUsers() {
