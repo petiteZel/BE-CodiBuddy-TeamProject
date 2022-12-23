@@ -68,17 +68,15 @@ class UserService {
     const users = await this.User.findOne({
       where: { user_id },
     }); 
-  //   if (!users) {
-  //     throw new Error(
-  //       "가입되지 않은 아이디 입니다."
-  //     );
-  //   }
+    if (!users) {
+      throw new Error(
+        "가입되지 않은 아이디 입니다."
+      );
+    }
 
-  //   // 비밀번호 일치 여부 확인
-  //   // const password = await this.User.findOne({ User: pw });
+  //비밀번호 일치 여부 확인
     const correctPasswordHash = users.pw; // db에 저장되어 있는 암호화된 비밀번호
-
-  //   // 매개변수의 순서 중요 (1번째는 프론트가 보내온 비밀번호, 2번쨰는 db에 있던 암호화된 비밀번호)
+  //매개변수의 순서 중요 (1번째는 프론트가 보내온 비밀번호, 2번쨰는 db에 있던 암호화된 비밀번호)
     const isPasswordCorrect = await bcrypt.compare(
       pw,
       correctPasswordHash
@@ -102,7 +100,9 @@ class UserService {
   }
 
 
-  
+
+
+
 
   //특정 사용자 정보 조회
   async getUserData(id) {
@@ -131,7 +131,7 @@ class UserService {
 
 
 
-
+  //실패.........
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
   async setUser(/*userInfoRequired,*/ toUpdate) {
     // 객체 destructuring
