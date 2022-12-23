@@ -1,14 +1,13 @@
-//import { User } from "../db/models";
-//import bcrypt from "bcrypt";
-//import jwt from "jsonwebtoken";
-const { User } = require("../db/models");
+//const { Tag } = require("../db");
+const { User, Tag } = require("../db/models");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 
 class UserService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
-  constructor(user_model) {
+  constructor(user_model, study_tag_model) {
     this.User = user_model;
+    this.StudyTah = study_tag_model;
   }
 
   // 회원가입
@@ -106,16 +105,10 @@ class UserService {
   async getUserData(id) {
     const getOneStudy = await this.User.findAll({
       where: { id },
-    }); 
-    // const getOneStudy = await this.Study.findOne({
-    //   where: {
-    //     id: String(id),
-    //   },
-      // include: {
-      //   model: this.Study_tag,
+      //  include: {
+      //   model: this.Tag,
       // },
-    // });
-
+    });
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!getOneStudy) {
       throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
