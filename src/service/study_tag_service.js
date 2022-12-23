@@ -17,24 +17,29 @@ class StudyTagService {
       });
     const tagIdList = []
     studyTags.map(e=>tagIdList.push(e.dataValues.id))
-    tagIdList.map(async (e)=>{
-      await this.StudyTag.create({
-          tag_id: e,
-          study_id: studyId,
-        });
+    return tagIdList.map(async (e)=>{
+      const a = {
+        tag_id: e,
+        study_id: studyId,
+      }
+      await this.StudyTag.create(a);
+      return a 
     })
+    
   }
   // study_tag 보기 (study id = studyId 인 태그 모두 가져오기)
   async getFromStudy(studyId) {
-    const findFromStudy = await this.StudyTag.findAll({
+    const findFromStudy = this.StudyTag.findAll({
       where:{
         study_id:studyId
       },
+      attributes:[],
       include:{
-        model:Study
+        model:Tag
       }
     });
-    return findFromStudy;
+    console.log("get 끝")
+    return findFromStudy
   }
 
   //tag로 스터디 찾기
@@ -63,6 +68,5 @@ class StudyTagService {
   
 }
 
-const studyTagService = new StudyTagService(Study_tag, Tag);
 
-module.exports = { studyTagService };
+module.exports = new StudyTagService(Study_tag, Tag);
