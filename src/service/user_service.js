@@ -117,39 +117,34 @@ class UserService {
     return getOneStudy;
   }
 
-  // 사용자 목록을 받음.
+  // //사용자 목록을 받음.
   // async getUsers() {
   //   const users = await this.User.findAll();
   //   return users;
-  // }
+  //}
 
-  // // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
-  // async setUser(userInfoRequired, toUpdate) {
-  //   // 객체 destructuring
-  //   try {
-  //     const { id, currentPassword } = userInfoRequired;
+  // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
+  async setUser(userInfoRequired, toUpdate) {
+    // 객체 destructuring
+    try {
+      const { id, /*currentPassword*/ } = userInfoRequired;
 
-  //     const user = await this.User.update({
-  //       id,
-  //       update: toUpdate,
-  //     });
 
-  //     return user;
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  // }
+      const user = await this.User.update({
+        id,
+        update: toUpdate,
+      });
 
-//   // 관리자 - 전체 유저 목록 불러오기
-//   async getUserData(userId) {
-//     const user = await this.User.findById(userId);
+      return user;
+    } catch (err) {
+      console.log("err", err);
+    }
+  }
 
-//     // db에서 찾지 못한 경우, 에러 메시지 반환
-//     if (!user) {
-//       throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
-//     }
-//     return user;
-//   }
+
+
+
+
 
   //특정 유저 삭제
   async deleteUserData(id) {
