@@ -133,23 +133,23 @@ userRouter.post("/login", async (req, res, next) => {
 
 
 
-// //회원탈퇴
-// userRouter.delete(
-//   "/delete/:id",
-//   loginRequired,
-//   async function (req, res, next) {
-//     try {
-//       // params로부터 id를 가져옴
-//       const Id = req.params.Id;
+//회원탈퇴
+userRouter.delete(
+  "/delete/:id",
+  /*loginRequired,*/
+  async function (req, res, next) {
+    try {
+      // params로부터 id를 가져옴
+      const id = req.params._id;
 
-//       const deleteResult = await userService.deleteUserData(Id);
+      const deleteResult = await userService.userService.deleteUserData(id);
 
-//       res.status(200).json(deleteResult);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
+      res.status(200).json(deleteResult);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 
 module.exports = userRouter;
