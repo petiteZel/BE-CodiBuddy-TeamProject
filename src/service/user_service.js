@@ -101,6 +101,9 @@ class UserService {
     return { token };
   }
 
+
+  
+
   //특정 사용자 정보 조회
   async getUserData(id) {
     const getOneStudy = await this.User.findAll({
@@ -117,23 +120,31 @@ class UserService {
     return getOneStudy;
   }
 
+
+
+
   // //사용자 목록을 받음.
   // async getUsers() {
   //   const users = await this.User.findAll();
   //   return users;
   //}
 
+
+
+
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
-  async setUser(userInfoRequired, toUpdate) {
+  async setUser(/*userInfoRequired,*/ toUpdate) {
     // 객체 destructuring
     try {
-      const { id, /*currentPassword*/ } = userInfoRequired;
+     //const { id, /*currentPassword*/ } = userInfoRequired;
 
 
-      const user = await this.User.update({
-        id,
-        update: toUpdate,
-      });
+      const user = await this.User.update({ 
+        // 첫 번째 인수: 수정할 내용
+  comment: toUpdate,
+}, {
+  where: { users: User._id }, 
+});
 
       return user;
     } catch (err) {
