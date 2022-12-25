@@ -1,13 +1,15 @@
 const express = require("express");
+const { loginRequired } = require("../middlewares/login_required");
 const recruitRouter = express.Router();
 
 const { recruitService } = require("../service");
 
 //모임 신청하기
-recruitRouter.post("/:study_id", async (req, res, next) => {
+recruitRouter.post("/:study_id", loginRequired, async (req, res, next) => {
     try {
-      const userId = 2;
+      const userId = req.userId;
       const studyId = req.params.study_id;
+      
       const newRecruit = await recruitService.addRecruit(userId,studyId);
   
       res.status(201).json(newRecruit);
@@ -17,9 +19,9 @@ recruitRouter.post("/:study_id", async (req, res, next) => {
 });
 
 //모임 신청 취소하기
-recruitRouter.delete("/:study_id", async (req, res, next) => {
+recruitRouter.delete("/:study_id", loginRequired, async (req, res, next) => {
     try {
-      const userId = 2;
+      const userId = req.userId;
       const studyId = req.params.study_id;
       const deleteRecruit = await recruitService.deleteMyRecruit(userId,studyId);
   

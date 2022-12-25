@@ -11,14 +11,17 @@ class StudyService {
     this.Like = like_model;
   }
 
-  async addStudy(studyData) {
+  async addStudy(userId,studyData) {
     const startPoint = dayjs(studyData.start_at).format("YYYY-MM-DD");
     const duration = Number(studyData.end_at);
     studyData.end_at = dayjs(startPoint)
       .add(duration, "M")
       .format("YYYY-MM-DD");
-
-    const createStudy = await this.Study.create(studyData);
+    const finalData = {
+      ...studyData,
+      author: userId
+    }
+    const createStudy = await this.Study.create(finalData);
 
     return createStudy;
   }
@@ -51,7 +54,11 @@ class StudyService {
         id: Number(studyId),
       },
       include: {
+        attributes:['tag_id'],
         model: this.StudyTag,
+        include:{
+          model: Tag,
+        }
       },
     });
 
@@ -84,10 +91,11 @@ class StudyService {
   }
 
   //모임 삭제
-  async deleteMyStudy(studyId) {
+  async deleteMyStudy(studyId,userId) {
     this.Study.destroy({
       where: {
         id: Number(studyId),
+        author:Number(userId)
       },
     });
   }

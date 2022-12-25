@@ -1,18 +1,40 @@
-const { Study } = require("../db");
-const { Recruit } = require("../db/models");
+const { Recruit, Study } = require("../db/models");
+const { Op } = require("sequelize");
 
 class RecruitService {
-  constructor( recruit_model ) {
+  constructor( recruit_model, study_model ) {
     this.Recruit = recruit_model;
+    this.Study = study_model;
   }
 
   async addRecruit(userId, studyId) {
-    const createRecruit = await this.Recruit.create({
-      user_id: userId,
-      study_id: studyId,
-    });
+    //study 모집 인원수 체크 및 + 1
+    const limitHeadCount = await this.Study.findOne({
+      attributes:['limit_head_count'],
+      where:{
+        id:studyId
+      }
+    })
+    const updateHeadCount = await this.Study.increment({head_count:1},
+      {
+        where:{
+          id:studyId,
+          head_count:{
+            [Op.lt]: limitHeadCount.dataValues.limit_head_count
+          }
+        }
+      })
 
-    return createRecruit;
+      //study 모집 인원수 +1
+    if(updateHeadCount[0][1]){
+      const createRecruit = await this.Recruit.create({
+        user_id: userId,
+        study_id: studyId,
+      });
+      return createRecruit;
+    }else{
+      return updateHeadCount
+    }
   }
   // 형성된 전체 모임 보기
   async getAllRecruit() {
@@ -37,7 +59,7 @@ class RecruitService {
         payment_status:'승인'
       },
       include:{
-        model: Study,
+        model: this.Study,
         attributes:['price']
       }
     });
@@ -78,4 +100,4 @@ class RecruitService {
   }
 }
 
-module.exports = new RecruitService(Recruit);
+module.exports = new RecruitService(Recruit, Study);

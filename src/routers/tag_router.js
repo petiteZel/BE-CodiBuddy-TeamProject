@@ -14,18 +14,4 @@ tagRouter.get("/", async (req, res, next) => {
     }
 });
 
-//찜 삭제하기
-tagRouter.delete("/:study_id", async (req, res, next) => {
-    try {
-      const userId = 1;
-      const studyId = req.params.study_id;
-      const deletetag = await tagService.deleteMytag(userId,studyId);
-  
-      res.status(201).json(deletetag);
-    } catch (error) {
-      next(error);
-    }
-});
-
-
-  module.exports = tagRouter;
+module.exports = tagRouter;

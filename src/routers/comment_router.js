@@ -1,13 +1,13 @@
 const express = require("express");
+const { loginRequired } = require("../middlewares/login_required");
 const commentRouter = express.Router();
 
 const { commentService } = require("../service");
 
 //댓글 쓰기
-commentRouter.post("/", async (req, res, next) => {
+commentRouter.post("/", loginRequired, async (req, res, next) => {
   try {
-    // const userId = req.currentUserId;
-    const userId = 1;
+    const userId = req.userId;
     const commentData = req.body;
     const newComment = await commentService.addComment(userId, commentData);
 
@@ -18,10 +18,9 @@ commentRouter.post("/", async (req, res, next) => {
 });
 
 //댓글 삭제하기
-commentRouter.delete("/:comment_id", async (req, res, next) => {
+commentRouter.delete("/:comment_id", loginRequired, async (req, res, next) => {
   try {
-    // const userId = req.currentUserId;
-    const userId = 1;
+    const userId = req.userId;
     const commentId = req.params.comment_id;
     const deleteComment = await commentService.deleteMyComment(
       userId,
@@ -35,10 +34,9 @@ commentRouter.delete("/:comment_id", async (req, res, next) => {
 });
 
 //댓글 수정하기
-commentRouter.patch("/:comment_id", async (req, res, next) => {
+commentRouter.patch("/:comment_id", loginRequired, async (req, res, next) => {
   try {
-    // const userId = req.currentUserId;
-    const userId = 1;
+    const userId = req.userId;
     const commentId = req.params.comment_id;
     const updateComment = req.body;
     const patchComment = await commentService.updateComment(userId, commentId, updateComment);

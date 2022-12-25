@@ -3,14 +3,18 @@ const Sequelize = require('sequelize');
 module.exports = class Recruit extends Sequelize.Model {
     static init(sequelize) {
       return super.init({
+        id:{
+          type: Sequelize.INTEGER,
+          allowNull:false,
+          primaryKey: true,
+          autoIncrement: true,
+        },
         user_id: {
             type: Sequelize.INTEGER,
-            allowNull: false,
             primaryKey: true,
         },
         study_id: {
             type: Sequelize.INTEGER,
-            allowNull: false,
             primaryKey: true,
         },
         payment_status: {
