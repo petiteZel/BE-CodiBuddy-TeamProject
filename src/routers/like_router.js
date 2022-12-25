@@ -21,9 +21,9 @@ likeRouter.delete("/:study_id", async (req, res, next) => {
     try {
       const userId = 1;
       const studyId = req.params.study_id;
-      const newLike = await likeService.deleteMyLike(userId,studyId);
+      const deleteLike = await likeService.deleteMyLike(userId,studyId);
   
-      res.status(201).json(newLike);
+      res.status(201).json(deleteLike);
     } catch (error) {
       next(error);
     }

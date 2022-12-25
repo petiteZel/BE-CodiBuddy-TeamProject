@@ -1,3 +1,4 @@
+const { Study } = require("../db");
 const { Recruit } = require("../db/models");
 
 class RecruitService {
@@ -21,10 +22,27 @@ class RecruitService {
   }
 
   //내 모임 보기
-  async getMyRecruit() {
-    const findMyRecruit = await this.Recruit.findAll({});
+  // async getMyRecruit() {
+  //   const findMyRecruit = await this.Recruit.findAll({});
 
-    return findMyRecruit;
+  //   return findMyRecruit;
+  // }
+
+  //환급 대상자 보기(유저 아이디, 환급금)
+  async getPayBackUsers(studyId) {
+    const findPayBackUsers = await this.Recruit.findAll({
+      attributes:['user_id'],
+      where:{
+        study_id:studyId,
+        payment_status:'승인'
+      },
+      include:{
+        model: Study,
+        attributes:['price']
+      }
+    });
+
+    return findPayBackUsers;
   }
   //내 모임 삭제하기
   async deleteMyRecruit(userId, studyId) {
@@ -36,11 +54,28 @@ class RecruitService {
     });
     return deleteRecruit;
   }
-  //환급 상태 변경
-  async patchMyRecruit() {
-    const updateRecruit = await this.Recruit.findOne({});
 
-    return updateRecruit;
+  //환급 상태 일괄 변경
+  async setPayBackUsers(data,studyId) {
+    const updatePayBackUsers = await this.Recruit.update(data,{
+      where:{
+        study_id:studyId
+      }
+    });
+
+    return updatePayBackUsers;
+  }
+
+  //환급 상태 지정 변경
+  async setPayBackUser(data,userIds,studyId) {
+    for(let i=0;i<userIds.length;i++){
+      await this.Recruit.update(data,{
+        where:{
+          user_id:userIds[i],
+          study_id:studyId
+        }
+      });
+    }
   }
 }
 
