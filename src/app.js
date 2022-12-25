@@ -1,6 +1,6 @@
 //app.js
 const express = require('express');
-const { studyRouter, userRouter, likeRouter, recruitRouter } = require('./routers')
+const { studyRouter, userRouter, likeRouter, recruitRouter, commentRouter } = require('./routers')
 const path = require('path');
 const morgan = require('morgan');
 
@@ -26,5 +26,6 @@ app.use('/api/study', studyRouter)
 app.use('/api/user', userRouter)
 app.use('/api/like', likeRouter)
 app.use('/api/recruit', recruitRouter)
+app.use('/api/comment', commentRouter)
 
 module.exports = { app }
