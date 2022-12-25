@@ -6,10 +6,12 @@ module.exports = class Study_tag extends Sequelize.Model {
         tag_id: {
             type: Sequelize.INTEGER,
             allowNull: false,
+            primaryKey: true
         },
         study_id: {
             type: Sequelize.INTEGER,
             allowNull: false,
+            primaryKey: true
         },
       }, {
       sequelize,

@@ -7,7 +7,7 @@ const { userService } = require("../service");
 
 
 // 회원가입 api
-userRouter.post("/register", async (req, res, next) => {
+userRouter.post("/", async (req, res, next) => {
   try {
     const user_id = req.body.user_id;
     const pw = req.body.pw;
@@ -135,7 +135,7 @@ userRouter.post("/login", async (req, res, next) => {
 
 //회원탈퇴
 userRouter.delete(
-  "/delete/:id",
+  "/:id",
   /*loginRequired,*/
   async function (req, res, next) {
     try {

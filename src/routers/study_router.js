@@ -3,6 +3,7 @@ const studyRouter = express.Router();
 
 const { studyService, recruitService, studyTagService } = require("../service");
 
+
 //스터디 생성 (완료)<recruit, study, study_tag 생성>
 studyRouter.post("/", async (req, res, next) => {
   try {
@@ -13,9 +14,8 @@ studyRouter.post("/", async (req, res, next) => {
     const studyId = newStudy.dataValues.id;
     await recruitService.addRecruit(userId, studyId);
     await studyTagService.addStudyTag(tag, studyId);
-    const studyTag = await studyTagService.getFromStudy(studyId)
 
-    res.status(201).json({"study":newStudy,studyTag});
+    res.status(201).json({'studyId':studyId});
   } catch (error) {
     next(error);
   }
@@ -58,19 +58,8 @@ studyRouter.get("/mystudy/expire", async (req, res, next) => {
   }
 });
 
-//태그별 스터디 불러오기 (태그리스트를 어떻게 불러올까요!)
-studyRouter.get("/tag", async (req, res, next) => {
-  try {
-    const tag = []
-    const tagForStudy = await studyService.getStudyFromTag(tag);
-    res.status(200).json(tagForStudy);
-  } catch (error) {
-    next(error);
-  }
-});
 
-
-//스터디 상세 보기
+//스터디 하나만 가져오기
 studyRouter.get("/:study_id", async (req, res, next) => {
   try {
     const studyId = req.params.study_id;
@@ -81,10 +70,23 @@ studyRouter.get("/:study_id", async (req, res, next) => {
   }
 });
 
+//찜한 스터디 가져오기 (완료)
+studyRouter.get("/mystudy/like", async (req,res,next)=>{
+    try{
+        const userId = 1
+        // const userId = req.currentUserId;
+        const studyByLike = await studyService.getStudyByLike(userId);
+        res.status(200).json(studyByLike)
+    }catch(error){
+        next(error)
+    }
+})
+
 //내 스터디 수정
 studyRouter.patch("/:study_id", async (req, res, next) => {
   try {
-    const userId = req.currentUserId;
+    // const userId = req.currentUserId;
+    const userId = 1;
     const studyId = req.params.study_id;
     const updateData = req.body;
     const updateStudy = await studyService.patchMyStudy(
@@ -106,9 +108,10 @@ studyRouter.delete("/:study_id", async (req, res, next) => {
     const studyId = req.params.study_id;
     //리쿠르트 삭제
     await recruitService.deleteMyRecruit(userId, studyId);
-    const deleteStudy = await studyService.deleteMyStudy(studyId);
+    await studyTagService.deleteStudyTag(studyId)
+    await studyService.deleteMyStudy(studyId);
 
-    res.status(200).json(deleteStudy);
+    res.status(200).json();
   } catch (error) {
     next(error);
   }
