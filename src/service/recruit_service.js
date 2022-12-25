@@ -55,25 +55,24 @@ class RecruitService {
     return deleteRecruit;
   }
 
-  //환급 상태 일괄 변경
-  async setPayBackUsers(data,studyId) {
-    const updatePayBackUsers = await this.Recruit.update(data,{
-      where:{
-        study_id:studyId
-      }
-    });
-
-    return updatePayBackUsers;
-  }
-
   //환급 상태 지정 변경
-  async setPayBackUser(data,userIds,studyId) {
-    for(let i=0;i<userIds.length;i++){
+  async setPayBackUsers(data,qeryString,studyId) {
+    const condition = {
+      study_id: studyId
+    }
+    if(qeryString.user){
+      const userIds = qeryString.user.split(',')
+      for(let i=0;i<userIds.length;i++){
+        await this.Recruit.update(data,{
+          where:{
+            ...condition,
+            user_id:Number(userIds[i])
+          }
+        });
+      }
+    }else{
       await this.Recruit.update(data,{
-        where:{
-          user_id:userIds[i],
-          study_id:studyId
-        }
+        where:condition
       });
     }
   }

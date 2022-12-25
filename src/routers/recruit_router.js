@@ -41,26 +41,14 @@ recruitRouter.get("/:study_id", async (req, res, next) => {
     }
 });
 
-//모임 환급 대상자 일괄 변경
-recruitRouter.patch("/all/:study_id", async (req, res, next) => {
-    try {
-      const studyId = req.params.study_id;
-      const setPayBack = await recruitService.setPayBackUsers(studyId);
-  
-      res.status(201).json(setPayBack);
-    } catch (error) {
-      next(error);
-    }
-});
 
-//모임 환급 대상자 지정 변경
+//모임 환급 대상자 변경
 recruitRouter.patch("/:study_id", async (req, res, next) => {
     try {
-      const userIds = req.query.user;
       const payment_status = req.query.status;
       const data = {payment_status:payment_status}
       const studyId = req.params.study_id;
-      const setPayBack = await recruitService.setPayBackUser(data,userIds,studyId);
+      const setPayBack = await recruitService.setPayBackUsers(data,req.query,studyId);
   
       res.status(201).json(setPayBack);
     } catch (error) {
