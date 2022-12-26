@@ -116,17 +116,12 @@ userRouter.patch("/",loginRequired, async (req, res, next) => {
 
 
 
-//회원탈퇴 (loginRequired 수정필요)
-userRouter.delete(
-  "/:id",
-  /*loginRequired,*/
-  async function (req, res, next) {
+//회원탈퇴
+userRouter.delete("/", loginRequired, async function (req, res, next) {
     try {
-      // params로부터 id를 가져옴
-      const id = req.params.id;
-
+      const id = req.userId;
+      //const id = 2;
       const deleteResult = await userService.deleteUserData(id);
-
       res.status(200).json(deleteResult);
     } catch (error) {
       next(error);
@@ -135,5 +130,7 @@ userRouter.delete(
 );
 
 
+
+
 module.exports = userRouter;
-//export { userRouter };
+
