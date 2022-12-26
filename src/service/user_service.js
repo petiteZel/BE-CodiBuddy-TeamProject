@@ -133,10 +133,10 @@ class UserService {
 
  
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
-  async setUser(/*userInfoRequired,*/ data, userId) {
+  async setUser(userInfoRequired, data, userId) {
     // 객체 destructuring
     try {
-     //const { id, /*currentPassword*/ } = userInfoRequired;
+     const { id, currentPassword } = userInfoRequired;
 
 
       const user = await this.User.update({ 

@@ -28,7 +28,7 @@ userRouter.post("/", async (req, res, next) => {
     
     await userTagService.addUserTag(tag, user_id);
 
-    
+
 
     res.status(201).json(newUser);
   } catch (error) {
@@ -84,22 +84,6 @@ userRouter.get("/", loginRequired, async function (req, res, next) {
 userRouter.patch("/", loginRequired, async (req, res, next) => {
   try {
     const id = req.userId;
-    // body data 로부터 업데이트할 사용자 정보를 추출함.
-    // const user_id = req.body.user_id;
-    // const pw = req.body.pw;
-    // const nickname = req.body.nickname;
-    // const email = req.body.email;
-    // const introduce = req.body.introduce;
-    // const profile_image = req.body.profile_image;
-
-    // const toUpdate = {
-    //   ...(user_id && { user_id }),
-    //   ...(pw && { pw }),
-    //   ...(nickname && { nickname }),
-    //   ...(email && { email }),
-    //   ...(introduce && { introduce }),
-    //   ...(profile_image && { profile_image }),
-    // };
 
     //사용자 정보를 업데이트함.
     const updatedUserInfo = await userService.setUser(
