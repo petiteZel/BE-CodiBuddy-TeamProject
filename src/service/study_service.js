@@ -93,38 +93,33 @@ class StudyService {
 
   //모임 삭제
   async deleteMyStudy(studyId,userId) {
-    this.Study.destroy({
+    const destroyStudy = await this.Study.destroy({
       where: {
         id: Number(studyId),
         author:Number(userId)
       },
     });
+    return destroyStudy;
   }
 
-  //수정 필요함!!
   //내 모임 수정
   async patchMyStudy(userId, studyId, updateData) {
-    const myStudyList = await this.Recruit.findAll({
-      where:{
-        user_id:userId,
-        study_id:studyId
-      },
-      attributes:['study_id']
-    })
-    if(myStudyList){
+
       const updateStudy = await this.Study.update(updateData.Study, {
         where: {
-          id: Number(studyId),
+          id: studyId,
+          author: userId
         },
       });
-      const updateStudyTag = await this.StudyTag.update(updateData.tag,{
-        where: {
-          study_id:Number(studyId),
-        }
-      })
-  
-      return updateStudy, updateStudyTag;
-    }
+      if(updateStudy){
+        const updateStudyTag = await this.StudyTag.update(updateData.Tag,{
+          where: {
+            study_id:studyId,
+          }
+        })
+    
+        return [updateStudy==1 || updateStudyTag==1];
+      }
   }
 
   //참가중인 스터디
@@ -198,7 +193,5 @@ class StudyService {
     });
   }
 }
-
-// const studyService = new StudyService(Study, Recruit, Like, Study_tag);
 
 module.exports = new StudyService(Study, Recruit, Like, Study_tag);
