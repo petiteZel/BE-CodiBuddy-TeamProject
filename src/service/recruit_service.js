@@ -78,7 +78,7 @@ class RecruitService {
   }
   //내 모임 삭제하기
   async deleteMyRecruit(userId, studyId) {
-    const deleteRecruit = this.Recruit.destroy({
+    const deleteRecruit = await this.Recruit.destroy({
       where: {
         user_id: Number(userId),
         study_id: Number(studyId),
@@ -94,18 +94,23 @@ class RecruitService {
     }
     if(qeryString.user){
       const userIds = qeryString.user.split(',')
+      const payBackUsers = []
       for(let i=0;i<userIds.length;i++){
-        await this.Recruit.update(data,{
+        payBackUsers.push(await this.Recruit.update(data,{
           where:{
             ...condition,
             user_id:Number(userIds[i])
           }
-        });
+        }))
       }
+      return payBackUsers;
+    
     }else{
-      await this.Recruit.update(data,{
+      const payBackUsers = await this.Recruit.update(data,{
         where:condition
       });
+
+      return payBackUsers
     }
   }
 }
