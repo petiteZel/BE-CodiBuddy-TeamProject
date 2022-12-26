@@ -132,25 +132,40 @@ class UserService {
 
 
  
-  // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
-  async setUser(userInfoRequired, data, userId) {
-    // 객체 destructuring
-    try {
-     const { id, currentPassword } = userInfoRequired;
-
-
-      const user = await this.User.update({ 
-        // 첫 번째 인수: 수정할 내용
-  ...data,
-}, {
-  where: { id: userId }, 
-});
-
-      return user;
-    } catch (err) {
-      console.log("err", err);
+ // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
+ async setUser(userInfoRequired, updateData) {
+  // 객체 destructuring
+  try {
+    const { id, checkPassword } = userInfoRequired;
+    const user = await this.User.findOne({
+      where: { id: id },
+    });
+    if (!user) {
+      throw new Error("가입내역이 없습니다.");
     }
+    const hashedPassword = user.pw;
+    const isPasswordSame = await bcrypt.compare(
+      checkPassword,
+      hashedPassword
+    );
+
+    if (!isPasswordSame) {
+      throw new Error("비밀번호가 일치하지 않습니다.");
+    }
+    const { pw } = updateData;
+    if (pw) {
+      const newHashedPassword = await bcrypt.hash(pw, 10);
+      updateData.pw = newHashedPassword;
+    }
+
+    const userchange = await this.User.update(updateData, {
+      where: { id: id },
+    });
+    return userchange;
+  } catch (err) {
+    console.log("err", err);
   }
+}
 
 
 
