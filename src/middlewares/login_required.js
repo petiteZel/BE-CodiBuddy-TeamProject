@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 function loginRequired(req, res, next) {
-  const token = req.headers.authorization;
+  // const token = req.headers.authorization;
+  const token = req.headers["authorization"]?.split(" ")[1];
   if (!token || token === 'null') {
     console.log('Authorization 토큰: 없음');
     res.status(403).json({
@@ -14,20 +15,23 @@ function loginRequired(req, res, next) {
 
   // 해당 token 이 정상적인 token인지 확인
   try {
-    const secretKey = process.env.JWT_SECRET_KEY
+    const secretKey = process.env.JWT_SECRET_KEY || "secret-key"
+    console.log(secretKey)
     const jwtDecoded = jwt.verify(token, secretKey);
 
-    const { userId, status } = jwtDecoded;
+    // const { userId, status } = jwtDecoded;
+    const { userId } = jwtDecoded;
 
-    if (status === "temp") {
-      return res.redirect('/googleSignup')
-    }
+    // if (status === "temp") {
+    //   return res.redirect('/googleSignup')
+    // }
 
     req.userId = userId;
-    req.userStatus = status;
+    // req.userStatus = status;
 
     next();
   } catch (error) {
+    console.log(error)
     res.status(403).json({
       result: 'forbidden-approach',
       reason: '정상적인 토큰이 아닙니다.',

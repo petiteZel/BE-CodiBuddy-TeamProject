@@ -9,31 +9,41 @@ class RecruitService {
 
   async addRecruit(userId, studyId) {
     //study 모집 인원수 체크 및 + 1
-    const limitHeadCount = await this.Study.findOne({
-      attributes:['limit_head_count'],
-      where:{
-        id:studyId
-      }
-    })
-    const updateHeadCount = await this.Study.increment({head_count:1},
-      {
+    try{
+      const limitHeadCount = await this.Study.findOne({
+        attributes:['limit_head_count'],
         where:{
-          id:studyId,
-          head_count:{
-            [Op.lt]: limitHeadCount.dataValues.limit_head_count
-          }
+          id:studyId
         }
       })
-
-      //study 모집 인원수 +1
-    if(updateHeadCount[0][1]){
-      const createRecruit = await this.Recruit.create({
-        user_id: userId,
-        study_id: studyId,
-      });
-      return createRecruit;
-    }else{
-      return updateHeadCount
+      const updateHeadCount = await this.Study.increment({head_count:1},
+        {
+          where:{
+            id:studyId,
+            head_count:{
+              [Op.lt]: limitHeadCount.dataValues.limit_head_count
+            }
+          }
+        })
+        
+        //study 모집 인원수 +1
+      if(updateHeadCount[0][1]){
+        const createRecruit = await this.Recruit.findOrCreate({
+          where:{
+            user_id: userId,
+            study_id: studyId,
+          },
+          defaults:{
+            user_id:userId,
+            study_id:studyId
+          }
+        });
+        return createRecruit;
+      }else{
+        return updateHeadCount
+      }
+  }catch(err){
+      console.log(err)
     }
   }
   // 형성된 전체 모임 보기

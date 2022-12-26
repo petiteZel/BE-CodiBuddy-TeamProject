@@ -90,9 +90,9 @@ class UserService {
 
   //   // 로그인 성공 -> JWT 웹 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
-
+    console.log(users.dataValues.user_id, secretKey)
   //   // 2개 프로퍼티를 jwt 토큰에 담음
-    const token = jwt.sign({ users: User._id }, secretKey);
+    const token = jwt.sign({ userId: users.dataValues.id }, secretKey);
 
   //   //const isAdmin = user.role === "admin";
 
