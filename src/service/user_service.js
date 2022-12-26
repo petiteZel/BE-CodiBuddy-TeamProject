@@ -136,7 +136,7 @@ class UserService {
  async setUser(userInfoRequired, updateData) {
   // 객체 destructuring
   try {
-    const { id, checkPassword } = userInfoRequired;
+    const { id, /*checkPassword*/ } = userInfoRequired;
     const user = await this.User.findOne({
       where: { id: id },
     });
@@ -144,14 +144,14 @@ class UserService {
       throw new Error("가입내역이 없습니다.");
     }
     const hashedPassword = user.pw;
-    const isPasswordSame = await bcrypt.compare(
-      checkPassword,
-      hashedPassword
-    );
+    // const isPasswordSame = await bcrypt.compare(
+    //   /*checkPassword,*/
+    //   hashedPassword
+    // );
 
-    if (!isPasswordSame) {
-      throw new Error("비밀번호가 일치하지 않습니다.");
-    }
+    // if (!isPasswordSame) {
+    //   throw new Error("비밀번호가 일치하지 않습니다.");
+    // }
     const { pw } = updateData;
     if (pw) {
       const newHashedPassword = await bcrypt.hash(pw, 10);

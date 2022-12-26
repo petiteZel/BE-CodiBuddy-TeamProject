@@ -82,22 +82,23 @@ userRouter.get("/", loginRequired, async function (req, res, next) {
 // 회원 정보 수정
 userRouter.patch("/", async (req, res, next) => {
   try {
-    const { nickname, email, introduce, profile_image, pw } = req.body;
-    const { checkPassword } = req.body;
+    const { nickname, email, introduce, profile_image, pw, point } = req.body;
+    //const { checkPassword } = req.body;
 
-    if (!checkPassword) {
-      throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
-    }
+    // if (!checkPassword) {
+    //   throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
+    // }
     // const id = req.userId;
     const id = 1;
 
-    const userInfoRequired = { id, checkPassword };
+    const userInfoRequired = { id, /*checkPassword*/ };
     const updateData = {
       ...(nickname && { nickname }),
       ...(email && { email }),
       ...(introduce && { introduce }),
       ...(profile_image && { profile_image }),
       ...(pw && { pw }),
+      ...(point && { point }),
     };
 
 
