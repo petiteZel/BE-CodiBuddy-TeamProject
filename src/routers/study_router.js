@@ -37,7 +37,6 @@ studyRouter.get("/", async (req, res, next) => {
 studyRouter.get("/mystudy/attend", loginRequired, async (req, res, next) => {
   try {
     const userId = req.userId;
-    // const userId = 1;
     const myAttendingStudyList =
       await studyService.getMyAttendingStudy(userId);
     res.status(200).json(myAttendingStudyList);
@@ -50,7 +49,6 @@ studyRouter.get("/mystudy/attend", loginRequired, async (req, res, next) => {
 studyRouter.get("/mystudy/expire", loginRequired, async (req, res, next) => {
   try {
     const userId = req.userId;
-    // const userId = 1;
     const myExpiredStudyList =
       await studyService.getMyExpiredStudy(userId);
     res.status(200).json(myExpiredStudyList);
@@ -74,7 +72,6 @@ studyRouter.get("/:study_id",  async (req, res, next) => {
 //찜한 스터디 가져오기 (완료)
 studyRouter.get("/mystudy/like", loginRequired, async (req,res,next)=>{
     try{
-        // const userId = 1
         const userId = req.userId;
         const studyByLike = await studyService.getStudyByLike(userId);
         res.status(200).json(studyByLike)
@@ -87,7 +84,6 @@ studyRouter.get("/mystudy/like", loginRequired, async (req,res,next)=>{
 studyRouter.patch("/:study_id", loginRequired, async (req, res, next) => {
   try {
     const userId = req.userId;
-    // const userId = 1;
     const studyId = req.params.study_id;
     const updateData = req.body;
     const updateStudy = await studyService.patchMyStudy(
@@ -105,7 +101,6 @@ studyRouter.patch("/:study_id", loginRequired, async (req, res, next) => {
 studyRouter.delete("/:study_id", loginRequired, async (req, res, next) => {
   try {
     const userId = req.userId;
-    // const userId = 1;
     const studyId = req.params.study_id;
 
     await studyService.deleteMyStudy(studyId,userId);
