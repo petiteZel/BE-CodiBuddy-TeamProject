@@ -35,14 +35,14 @@ class StudyService {
     }
     console.log(query);
     const findAllStudy = await this.Study.findAll({
-      where: query,
       include:{
-        model: this.StudyTag,
+        model:this.StudyTag,
+        where:query,
         attributes:['tag_id'],
         include:{
           model:Tag
         }
-      },
+      }
     });
 
     return findAllStudy;
