@@ -20,8 +20,8 @@ db.Recruit = Recruit;
 db.Comment = Comment;
 
 Tag.init(sequelize);
-User.init(sequelize);
 Study.init(sequelize);
+User.init(sequelize);
 User_tag.init(sequelize);
 Study_tag.init(sequelize);
 Like.init(sequelize);

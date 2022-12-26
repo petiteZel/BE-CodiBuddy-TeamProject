@@ -17,6 +17,7 @@ class StudyService {
     studyData.end_at = dayjs(startPoint)
       .add(duration, "M")
       .format("YYYY-MM-DD");
+      console.log(userId)
     const finalData = {
       ...studyData,
       author: userId
