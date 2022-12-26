@@ -80,7 +80,7 @@ userRouter.get("/", loginRequired, async function (req, res, next) {
 
 
 // 회원 정보 수정
-userRouter.patch("/", async (req, res, next) => {
+userRouter.patch("/",loginRequired, async (req, res, next) => {
   try {
     const { nickname, email, introduce, profile_image, pw, point } = req.body;
     //const { checkPassword } = req.body;
@@ -88,8 +88,7 @@ userRouter.patch("/", async (req, res, next) => {
     // if (!checkPassword) {
     //   throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
     // }
-    // const id = req.userId;
-    const id = 1;
+    const id = req.userId;
 
     const userInfoRequired = { id, /*checkPassword*/ };
     const updateData = {
