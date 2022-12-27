@@ -5,7 +5,7 @@ const studyRouter = express.Router();
 const { studyService, recruitService, studyTagService } = require("../service");
 
 
-//스터디 생성 (완료)<recruit, study, study_tag 생성>
+//스터디 생성 (완료)<recruit, study, StudyTag 생성>
 studyRouter.post("/", loginRequired, async (req, res, next) => {
   try {
     const userId = req.userId;
@@ -21,7 +21,7 @@ studyRouter.post("/", loginRequired, async (req, res, next) => {
   }
 });
 
-//모든 스터디 불러오기(태그별 가능) (완료)<study, study_tag>
+//모든 스터디 불러오기(태그별 가능) (완료)<study, StudyTag>
 studyRouter.get("/", async (req, res, next) => {
   try {
     const allStudyList = await studyService.getAllStudy(req.query);

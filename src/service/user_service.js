@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken");
 
 class UserService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
-  constructor(user_model, study_tag_model) {
+  constructor(user_model, StudyTag_model) {
     this.User = user_model;
-    this.StudyTah = study_tag_model;
+    this.StudyTah = StudyTag_model;
   }
 
   // 회원가입

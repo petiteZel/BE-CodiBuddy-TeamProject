@@ -8,7 +8,7 @@ class UserTagService {
       this.Tag = Tag_model;
     }
   
-    //user_tag 생성
+    //UserTag 생성
     async addUserTag(tag, userId) {
       const userTags = await this.Tag.findAll({
         where: {
@@ -26,7 +26,7 @@ class UserTagService {
         await this.UserTag.create(a);
       });
     }
-    // user_tag 보기 (user id = userId 인 태그 모두 가져오기)
+    // UserTag 보기 (user id = userId 인 태그 모두 가져오기)
     async getFromUser(userId) {
       const findFromUser = this.UserTag.findAll({
         where: {
@@ -65,5 +65,5 @@ class UserTagService {
     }
   }
   
-  module.exports = new UserTagService(User_tag, Tag);
+  module.exports = new UserTagService(UserTag, Tag);
   

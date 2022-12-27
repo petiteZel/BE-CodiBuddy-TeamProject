@@ -1,5 +1,5 @@
-const { User, Tag } = require("../db");
-const { Study, Recruit, Like, Study_tag } = require("../db/models");
+const { User, Tag, TagKind } = require("../db");
+const { Study, Recruit, Like, StudyTag } = require("../db/models");
 const dayjs = require("dayjs");
 const { Op } = require("sequelize");
 
@@ -27,19 +27,27 @@ class StudyService {
   }
 
   async getAllStudy(queryString) {
-    const query = {};
+    const tagQuery = {};
+    const kindQuery = {};
     if (queryString.tag) {
-      query.tag_id = queryString.tag.split(",").map((e) => Number(e));
+      tagQuery.tag_id = queryString.tag.split(",").map((e) => Number(e));
+    }
+    if (queryString.kind){
+      kindQuery.kind = queryString.kind
     }
     const findAllStudy = await this.Study.findAll({
       attributes: {exclude: ['author']},
       include: [
         {
           model: this.StudyTag,
-          where: query,
+          where: tagQuery,
           attributes: ["tag_id"],
           include: {
             model: Tag,
+            where:kindQuery,
+            include:{
+              model: TagKind
+            }
           },
         },
         {
@@ -156,7 +164,7 @@ class StudyService {
             },
           },
           include: [{
-            model: Study_tag,
+            model: StudyTag,
             attributes: ["tag_id"],
             include: {
               model: Tag,
@@ -197,7 +205,7 @@ class StudyService {
             },
           },
           include: [{
-            model: Study_tag,
+            model: StudyTag,
             attributes: ["tag_id"],
             include: {
               model: Tag,
@@ -216,4 +224,4 @@ class StudyService {
   }
 }
 
-module.exports = new StudyService(Study, Recruit, Like, Study_tag);
+module.exports = new StudyService(Study, Recruit, Like, StudyTag);

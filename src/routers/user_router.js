@@ -24,8 +24,7 @@ userRouter.post("/", async (req, res, next) => {
       pw,
       nickname,
       email,
-      introduce,
-      profile_image
+      introduce
     });
     
     // await userTagService.addUserTag(tag, user_id);
