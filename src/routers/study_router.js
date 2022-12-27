@@ -102,9 +102,9 @@ studyRouter.delete("/:study_id", loginRequired, async (req, res, next) => {
     const userId = req.userId;
     const studyId = req.params.study_id;
 
-    await studyService.deleteMyStudy(studyId,userId);
+    const deletStudy = await studyService.deleteMyStudy(studyId,userId);
 
-    res.status(200).json();
+    res.status(201).json(deletStudy);
   } catch (error) {
     next(error);
   }

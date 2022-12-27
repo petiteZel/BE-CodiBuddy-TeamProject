@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 
 function loginRequired(req, res, next) {
   // const token = req.headers.authorization;
+  //header에 토큰의 typ과 alg(해싱 알고리즘)이 지정돼있다.
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token || token === 'null') {
     console.log('Authorization 토큰: 없음');

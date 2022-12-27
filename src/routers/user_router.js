@@ -80,18 +80,34 @@ userRouter.get("/", loginRequired, async function (req, res, next) {
 
 
 
-//수정해야됨!!!!!!
+
 // 회원 정보 수정
-// (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)
-userRouter.patch("/", loginRequired,/*upload.single('profile_image'),*/ async (req, res, next) => {
+userRouter.patch("/",loginRequired,/*upload.single('profile_image'),*/ async (req, res, next) => {
   try {
+    const { nickname, email, introduce, profile_image, pw, point } = req.body;
+    //const { checkPassword } = req.body;
+
+    // if (!checkPassword) {
+    //   throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
+    // }
     const id = req.userId;
+
+    const userInfoRequired = { id, /*checkPassword*/ };
+    const updateData = {
+      ...(nickname && { nickname }),
+      ...(email && { email }),
+      ...(introduce && { introduce }),
+      ...(profile_image && { profile_image }),
+      ...(pw && { pw }),
+      ...(point && { point }),
+    };
+
     // const profile_image = req.file.location;
 
     //사용자 정보를 업데이트함.
     const updatedUserInfo = await userService.setUser(
-      /*userInfoRequired,*/
-      req.body,id
+      userInfoRequired,
+      updateData
     );
 
     // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
@@ -103,18 +119,12 @@ userRouter.patch("/", loginRequired,/*upload.single('profile_image'),*/ async (r
 
 
 
-
-//회원탈퇴 (loginRequired 수정필요)
-userRouter.delete(
-  "/:id",
-  /*loginRequired,*/
-  async function (req, res, next) {
+//회원탈퇴
+userRouter.delete("/", loginRequired, async function (req, res, next) {
     try {
-      // params로부터 id를 가져옴
-      const id = req.params.id;
-
+      const id = req.userId;
+      //const id = 2;
       const deleteResult = await userService.deleteUserData(id);
-
       res.status(200).json(deleteResult);
     } catch (error) {
       next(error);
@@ -123,5 +133,7 @@ userRouter.delete(
 );
 
 
+
+
 module.exports = userRouter;
-//export { userRouter };
+

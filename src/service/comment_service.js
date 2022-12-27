@@ -42,18 +42,18 @@ class CommentService {
   //스터디 댓글 보기
   async getComment(queryString, studyId) {
     const condition = {
+      include: {
+        model:User,
+        attributes:['nickname','profile_image']
+      },
       where: {
         study_id: Number(studyId),
       },
     };
     if (queryString.user) {
-      condition.include = {
-        model:User,
-        attributes:['nickname','profile_image'],
-        where:{
+      condition.include.where = {
           nickname : queryString.user,
         }
-      };
     }
     const findComment = await this.Comment.findAll(condition);
     return findComment;
