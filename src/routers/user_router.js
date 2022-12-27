@@ -16,7 +16,7 @@ userRouter.post("/", async (req, res, next) => {
     const nickname = req.body.nickname;
     const email = req.body.email;
     const introduce = req.body.introduce;
-    // const tag = req.body.tag;
+    const tag = req.body.tag;
     
     
     //위 데이터를 유저 db에 추가하기
@@ -28,8 +28,8 @@ userRouter.post("/", async (req, res, next) => {
       introduce
     });
     
-    // const userid = newUser.id
-    // await userTagService.addUserTag(tag, userid);
+    const userid = newUser.id
+    await userTagService.addUserTag(tag, userid);
     res.status(201).json(newUser);
   } catch (error) {
     next(error);
@@ -79,7 +79,7 @@ userRouter.get("/", loginRequired, async function (req, res, next) {
 
 
 // 회원 정보 수정
-userRouter.patch("/",loginRequired, upload.single('profile_image'), async (req, res, next) => {
+userRouter.patch("/",loginRequired, /*upload.single('profile_image'),*/ async (req, res, next) => {
   try {
     const { nickname, email, introduce, pw, point } = req.body;
     //const { checkPassword } = req.body;
@@ -88,18 +88,20 @@ userRouter.patch("/",loginRequired, upload.single('profile_image'), async (req, 
     //   throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
     // }
     const id = req.userId;
-    const profile_image = req.file.location;
+    // const profile_image = req.file.location;
 
     const userInfoRequired = { id, /*checkPassword*/ };
     const updateData = {
       ...(nickname && { nickname }),
       ...(email && { email }),
       ...(introduce && { introduce }),
-      ...(profile_image && { profile_image }),
+      // ...(profile_image && { profile_image }),
       ...(pw && { pw }),
       ...(point && { point }),
     };
 
+    // const userid = newUser.id
+    // await userTagService.addUserTag(tag, userid);
 
     //사용자 정보를 업데이트함.
     const updatedUserInfo = await userService.setUser(
@@ -119,8 +121,8 @@ userRouter.patch("/",loginRequired, upload.single('profile_image'), async (req, 
 //회원탈퇴
 userRouter.delete("/", loginRequired, async function (req, res, next) {
     try {
-      const id = req.userId;
-      //const id = 2;
+      //const id = req.userId;
+      const id = 22;
       const deleteResult = await userService.deleteUserData(id);
       res.status(200).json(deleteResult);
     } catch (error) {

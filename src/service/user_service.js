@@ -1,5 +1,5 @@
-const { User } = require("../db");
-const { Tag } = require("../db/models");
+const { User,Tag } = require("../db");
+const { UserTag } = require("../db/models");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 
@@ -99,11 +99,21 @@ class UserService {
 
 
 
-  //특정 사용자 정보 조회
+  //마이페이지 조회
   async getUserData(id) {
     const getOneStudy = await this.User.findAll({
       where: { id },
+      include: [
+        {
+          atrributes: ["tag_id"],
+          model: this.UserTag,
+          include: {
+            model: Tag,
+          },
+        },
+      ],
     });
+
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!getOneStudy) {
       throw new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
@@ -152,9 +162,15 @@ class UserService {
 
     const userchange = await this.User.update(updateData, {
       where: { id: id },
+
+      
     });
-    return userchange;
-  } catch (err) {
+
+
+return userchange
+
+  }
+  catch (err) {
     console.log("err", err);
   }
 }
@@ -181,4 +197,4 @@ class UserService {
 
 
 
-module.exports = new UserService(User);
+module.exports = new UserService(User, UserTag);
