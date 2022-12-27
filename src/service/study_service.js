@@ -11,7 +11,7 @@ class StudyService {
     this.Like = like_model;
   }
 
-  async addStudy(userId,studyData) {
+  async addStudy(userId, studyData) {
     const startPoint = dayjs(studyData.start_at).format("YYYY-MM-DD");
     const duration = Number(studyData.end_at);
     studyData.end_at = dayjs(startPoint)
@@ -19,8 +19,8 @@ class StudyService {
       .format("YYYY-MM-DD");
     const finalData = {
       ...studyData,
-      author: userId
-    }
+      author: userId,
+    };
     const createStudy = await this.Study.create(finalData);
 
     return createStudy;
@@ -32,14 +32,21 @@ class StudyService {
       query.tag_id = queryString.tag.split(",").map((e) => Number(e));
     }
     const findAllStudy = await this.Study.findAll({
-      include:{
-        model:this.StudyTag,
-        where:query,
-        attributes:['tag_id'],
-        include:{
-          model:Tag
-        }
-      }
+      attributes: {exclude: ['author']},
+      include: [
+        {
+          model: this.StudyTag,
+          where: query,
+          attributes: ["tag_id"],
+          include: {
+            model: Tag,
+          },
+        },
+        {
+          model: User,
+          attributes: ["id","nickname", "profile_image"],
+        },
+      ],
     });
 
     return findAllStudy;
@@ -48,16 +55,20 @@ class StudyService {
   //모임 상세보기 (아이디로 하나만 불러오기 - 포스트맨에서 확인 안됨)
   async getStudyDetail(studyId) {
     const getOneStudy = await this.Study.findOne({
+      attributes: {exclude: ['author']},
       where: {
         id: Number(studyId),
       },
-      include: {
-        attributes:['tag_id'],
+      include: [{
+        attributes: ["tag_id"],
         model: this.StudyTag,
-        include:{
+        include: {
           model: Tag,
-        }
-      },
+        },
+      },{
+        model: User,
+        attributes: ["id","nickname", "profile_image"],
+      },]
     });
 
     return getOneStudy;
@@ -65,35 +76,40 @@ class StudyService {
 
   //찜한 스터디
 
-  async getStudyByLike(userId){
+  async getStudyByLike(userId) {
     const studyByLike = this.Study.findAll({
-      include:[
+      attributes: {exclude: ['author']},
+      include: [
         {
-          model:this.Like,
-          attributes:[],
-          where:{
-            user_id:Number(userId)
-          }
+          model: this.Like,
+          attributes: [],
+          where: {
+            user_id: Number(userId),
+          },
         },
         {
-          atrributes:['tag_id'],
+          atrributes: ["tag_id"],
           model: this.StudyTag,
-          include:{
-            model:Tag
-          }
-        }
-      ]
-    })
+          include: {
+            model: Tag,
+          },
+        },
+        {
+          model: User,
+          attributes: ["id","nickname", "profile_image"],
+        },
+      ],
+    });
 
     return studyByLike;
   }
 
   //모임 삭제
-  async deleteMyStudy(studyId,userId) {
+  async deleteMyStudy(studyId, userId) {
     const destroyStudy = await this.Study.destroy({
       where: {
         id: Number(studyId),
-        author:Number(userId)
+        author: Number(userId),
       },
     });
     return destroyStudy;
@@ -101,22 +117,21 @@ class StudyService {
 
   //내 모임 수정
   async patchMyStudy(userId, studyId, updateData) {
-
-      const updateStudy = await this.Study.update(updateData.Study, {
+    const updateStudy = await this.Study.update(updateData.Study, {
+      where: {
+        id: studyId,
+        author: userId,
+      },
+    });
+    if (updateStudy) {
+      const updateStudyTag = await this.StudyTag.update(updateData.Tag, {
         where: {
-          id: studyId,
-          author: userId
+          study_id: studyId,
         },
       });
-      if(updateStudy){
-        const updateStudyTag = await this.StudyTag.update(updateData.Tag,{
-          where: {
-            study_id:studyId,
-          }
-        })
-    
-        return [updateStudy==1 || updateStudyTag==1];
-      }
+
+      return [updateStudy == 1 || updateStudyTag == 1];
+    }
   }
 
   //참가중인 스터디
@@ -134,18 +149,22 @@ class StudyService {
         },
         {
           model: Study,
+          attributes: {exclude: ['author']},
           where: {
             end_at: {
               [Op.gte]: now.format("YYYY-MM-DD"),
             },
           },
-          include: {
+          include: [{
             model: Study_tag,
-            attributes:['tag_id'],
-            include:{
+            attributes: ["tag_id"],
+            include: {
               model: Tag,
-            }
-          },
+            },
+          },{
+            model: User,
+            attributes: ["id","nickname", "profile_image"],
+          },]
         },
       ],
     });
@@ -170,18 +189,24 @@ class StudyService {
         },
         {
           model: Study,
+          attributes: {exclude: ['author']},
           required: true,
           where: {
             end_at: {
               [Op.lt]: now.format("YYYY-MM-DD"),
             },
-          },include: {
-            model: Study_tag,
-            attributes:['tag_id'],
-            include:{
-              model: Tag,
-            }
           },
+          include: [{
+            model: Study_tag,
+            attributes: ["tag_id"],
+            include: {
+              model: Tag,
+            },
+          },
+          {
+            model: User,
+            attributes: ["id","nickname", "profile_image"],
+          },]
         },
       ],
     });

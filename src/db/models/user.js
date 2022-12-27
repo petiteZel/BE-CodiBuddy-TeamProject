@@ -62,7 +62,7 @@ module.exports = class User extends Sequelize.Model {
     db.Recruit.belongsTo(db.User,{onDelete:'cascade'});
     db.User.hasMany(db.Comment, { foreignKey: 'user_id', sourceKey: 'id'});
     db.Comment.belongsTo(db.User);
-    db.User.hasOne(db.Study, { foreignKey: 'author', sourceKey: 'id'});
+    db.Study.belongsTo(db.User, { foreignKey: 'author', sourceKey: 'id'});
   }
   
 };
