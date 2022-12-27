@@ -94,12 +94,16 @@ studyRouter.patch("/:study_id", loginRequired, async (req, res, next) => {
   try {
     const userId = req.userId;
     const studyId = req.params.study_id;
-    const updateData = req.body;
+    const updateData = req.body.Study;
+    const tagData = req.body.Tag;
     const updateStudy = await studyService.patchMyStudy(
       userId,
       studyId,
       updateData
     );
+    await studyTagService.deleteStudyTag(studyId);
+    await studyTagService.addStudyTag(tagData, studyId);
+
     res.status(200).json(updateStudy);
   } catch (error) {
     next(error);
