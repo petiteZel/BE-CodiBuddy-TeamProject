@@ -1,5 +1,5 @@
 const { User } = require("../db");
-//const { User, Tag } = require("../db/models");
+const { Tag } = require("../db/models");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 
@@ -47,10 +47,6 @@ class UserService {
 
     return createdNewUser;
   }
-
-
-
-
 
 
 
