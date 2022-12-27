@@ -16,7 +16,7 @@ userRouter.post("/", async (req, res, next) => {
     const nickname = req.body.nickname;
     const email = req.body.email;
     const introduce = req.body.introduce;
-    const tag = req.body.tag;
+    // const tag = req.body.tag;
     
     
     //위 데이터를 유저 db에 추가하기
@@ -28,10 +28,8 @@ userRouter.post("/", async (req, res, next) => {
       introduce
     });
     
-    const userid = newUser.id
-    await userTagService.addUserTag(tag, userid);
-
-
+    // const userid = newUser.id
+    // await userTagService.addUserTag(tag, userid);
     res.status(201).json(newUser);
   } catch (error) {
     next(error);

@@ -103,9 +103,6 @@ class UserService {
   async getUserData(id) {
     const getOneStudy = await this.User.findAll({
       where: { id },
-      //  include: {
-      //   model: this.Tag,
-      // },
     });
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!getOneStudy) {
