@@ -32,7 +32,7 @@ studyRouter.get("/", async (req, res, next) => {
 });
 
 //모든 스터디 불러오기(태그별 가능) (완료)<study, StudyTag>
-studyRouter.get("/:kind", async (req, res, next) => {
+studyRouter.get("/kind/:kind", async (req, res, next) => {
   try {
     const allStudyByKind = await studyService.studyByKind(req.params.kind);
     res.status(200).json(allStudyByKind);
@@ -70,7 +70,7 @@ studyRouter.get("/mystudy/expire", loginRequired, async (req, res, next) => {
 //스터디 하나만 가져오기
 studyRouter.get("/:study_id",  async (req, res, next) => {
   try {
-    const studyId = req.params.study_id;
+      const studyId = req.params.study_id;
     const studyDetail = await studyService.getStudyDetail(studyId);
     res.status(200).json(studyDetail);
   } catch (error) {
