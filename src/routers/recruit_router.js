@@ -11,8 +11,14 @@ recruitRouter.post("/:study_id", loginRequired, async (req, res, next) => {
       const studyId = req.params.study_id;
       
       const newRecruit = await recruitService.addRecruit(userId,studyId);
-  
-      res.status(201).json(newRecruit);
+      
+      if(newRecruit[1]){
+        res.status(201).json(newRecruit);
+      }else{
+        res.status(403).json({
+          message: '이미 신청한 모임입니다.'
+        })
+      }
     } catch (error) {
       next(error);
     }

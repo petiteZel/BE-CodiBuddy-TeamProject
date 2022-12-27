@@ -10,8 +10,14 @@ likeRouter.post("/:study_id", loginRequired, async (req, res, next) => {
       const userId = req.userId;
       const studyId = req.params.study_id;
       const newLike = await likeService.addLike(userId,studyId);
+      if(newLike[1]){
+        res.status(201).json(newLike);
+      }else{
+        res.status(403).json({
+          message: '이미 찜한 모임입니다.'
+        })
+      }
   
-      res.status(201).json(newLike);
     } catch (error) {
       next(error);
     }
