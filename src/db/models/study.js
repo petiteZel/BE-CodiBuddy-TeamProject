@@ -74,8 +74,8 @@ module.exports = class Study extends Sequelize.Model {
   }
 
   static associate(db){
-    db.Study.hasMany(db.Study_tag, { foreignKey: 'study_id', sourceKey: 'id'});
-    db.Study_tag.belongsTo(db.Study,{onDelete:'cascade'})
+    db.Study.hasMany(db.StudyTag, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.StudyTag.belongsTo(db.Study,{onDelete:'cascade'})
     db.Study.hasMany(db.Like, { foreignKey: 'study_id', sourceKey: 'id'});
     db.Like.belongsTo(db.Study,{onDelete:'cascade'})
     db.Study.hasMany(db.Recruit, { foreignKey: 'study_id', sourceKey: 'id'});

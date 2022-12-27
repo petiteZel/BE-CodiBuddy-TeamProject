@@ -17,13 +17,14 @@ userRouter.post("/", async (req, res, next) => {
     const introduce = req.body.introduce;
     const tag = req.body.tag;
     
+    
     //위 데이터를 유저 db에 추가하기
     const newUser = await userService.addUser({
       user_id,
       pw,
       nickname,
       email,
-      introduce,
+      introduce
     });
     
     // await userTagService.addUserTag(tag, user_id);
@@ -80,7 +81,7 @@ userRouter.get("/", loginRequired, async function (req, res, next) {
 
 
 // 회원 정보 수정
-userRouter.patch("/",loginRequired, async (req, res, next) => {
+userRouter.patch("/",loginRequired,/*upload.single('profile_image'),*/ async (req, res, next) => {
   try {
     const { nickname, email, introduce, profile_image, pw, point } = req.body;
     //const { checkPassword } = req.body;
@@ -100,6 +101,7 @@ userRouter.patch("/",loginRequired, async (req, res, next) => {
       ...(point && { point }),
     };
 
+    // const profile_image = req.file.location;
 
     //사용자 정보를 업데이트함.
     const updatedUserInfo = await userService.setUser(
