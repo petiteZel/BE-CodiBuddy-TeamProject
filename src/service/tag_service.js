@@ -17,110 +17,121 @@ class TagService {
         tag: {
           tag_name: "JavaScript",
           tag_image: "https://holaworld.io/images/languages/javascript.svg",
-          popular: true,
         },
         kind:[{
           kind: "front_end"
+        },{
+          kind: "popular"
         }]
       },
       {
         tag: {
           tag_name: "TypeScript",
           tag_image: "https://holaworld.io/images/languages/typescript.svg",
-          popular: true,
         },
         kind:[{
           kind: "front_end"
+        },{
+          kind: "popular"
         }]
       },
       {
         tag: {
           tag_name: "React",
           tag_image: "https://holaworld.io/images/languages/react.svg",
-          popular: true,
         },
         kind:[{
           kind: "front_end"
+        },{
+          kind: "popular"
         }]
       },
       {
         tag: {
           tag_name: "Vue",
           tag_image: "https://holaworld.io/images/languages/vue.svg",
-          popular: true,
         },
         kind:[{
           kind: "front_end"
+        },{
+          kind: "popular"
         }]
       },
       {
         tag: {
           tag_name: "Svelt",
           tag_image: "https://holaworld.io/images/languages/svelte.svg",
-          popular: true,
         },
         kind:[{
           kind: "front_end"
+        },{
+          kind: "popular"
         }]
       },
       {
         tag: {
           tag_name: "Nodejs",
           tag_image: "https://holaworld.io/images/languages/nodejs.svg",
-          popular: true,
         },
         kind:[{
           kind: "back_end"
+        },{
+          kind: "popular"
         }]
       },
       {
         tag: {
           tag_name: "Nextjs",
           tag_image: "https://holaworld.io/images/languages/nextjs.svg",
-          popular: true,
         },
         kind:[{
           kind: "front_end"
+        },{
+          kind: "popular"
         }]
       },
       {
         tag: {
           tag_name: "Java",
           tag_image: "https://holaworld.io/images/languages/java.svg",
-          popular: true,
         },
         kind:[{
           kind: "back_end"
+        },{
+          kind: "popular"
         }]
       },
       {
         tag: {
           tag_name: "Spring",
           tag_image: "https://holaworld.io/images/languages/spring.svg",
-          popular: true,
         },
         kind:[{
           kind: "back_end"
+        },{
+          kind: "popular"
         }]
       },
       {
         tag: {
           tag_name: "Go",
           tag_image: "https://holaworld.io/images/languages/go.svg",
-          popular: true,
         },
         kind:[{
           kind: "back_end"
+        },{
+          kind: "popular"
         }]
       },
       {
         tag: {
           tag_name: "Nestjs",
           tag_image: "https://holaworld.io/images/languages/nestjs.svg",
-          popular: true,
         },
         kind:[{
           kind: "back_end"
+        },{
+          kind: "popular"
         }]
       },
       {

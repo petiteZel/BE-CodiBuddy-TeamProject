@@ -31,6 +31,16 @@ studyRouter.get("/", async (req, res, next) => {
   }
 });
 
+//모든 스터디 불러오기(태그별 가능) (완료)<study, StudyTag>
+studyRouter.get("/:kind", async (req, res, next) => {
+  try {
+    const allStudyByKind = await studyService.studyByKind(req.params.kind);
+    res.status(200).json(allStudyByKind);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //참가중인 스터디 (완료)
 // studyRouter.get("/mystudy", loginRequired, async (req,res,next)=> {
 studyRouter.get("/mystudy/attend", loginRequired, async (req, res, next) => {
