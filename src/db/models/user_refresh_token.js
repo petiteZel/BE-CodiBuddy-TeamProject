@@ -17,9 +17,16 @@ module.exports = class UserRefreshToken extends Sequelize.Model {
             type: Sequelize.STRING(100),
             allowNull: false,
         },
+        expired_at: {
+          type: Sequelize.DATEONLY,
+          allowNull: false,
+          validate: {
+            isDate: true
+          }
+        },
       }, {
       sequelize,
-      timestamps: false, //creatat+delete
+      timestamps: true, //creatat+delete
       underscored: true, //스네이크케이스로 이름변경
       modelName: 'UserRefreshToken',
       tableName: 'userrefreshtokens',

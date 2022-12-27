@@ -51,6 +51,8 @@ userRouter.post("/login", async (req, res, next) => {
     // 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
     const userToken = await userService.getUserToken({ user_id, pw });
 
+    //rt 토큰 저장
+
     // jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
     res.status(200).json(userToken);
   } catch (error) {
