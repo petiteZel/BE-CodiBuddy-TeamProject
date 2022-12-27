@@ -7,7 +7,11 @@ class TagService {
   }
 
   async getTag() {
-    const findAllTag = this.Tag.findAll({});
+    const findAllTag = this.Tag.findAll({
+      include:{
+        model:TagKind
+      }
+    });
 
     return findAllTag;
   }
