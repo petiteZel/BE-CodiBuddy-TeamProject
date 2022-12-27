@@ -15,9 +15,10 @@ recruitRouter.post("/:study_id", loginRequired, async (req, res, next) => {
       if(newRecruit[1]){
         res.status(201).json(newRecruit);
       }else{
-        res.status(403).json({
-          message: '이미 신청한 모임입니다.'
-        })
+        res.status(405).json({
+          reason: '이미 신청한 모임입니다..',
+          result: 'method-not-allowed',
+        });
       }
     } catch (error) {
       next(error);
