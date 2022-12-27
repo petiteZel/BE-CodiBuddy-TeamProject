@@ -88,10 +88,11 @@ class UserService {
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
   //   // 2개 프로퍼티를 jwt 토큰에 담음
     const token = jwt.sign({ userId: users.dataValues.id, exp: Math.floor(Date.now()/1000)+(60*60) }, secretKey);
-
+    
+    
   //   //const isAdmin = user.role === "admin";
 
-    return { token };
+    return { token:token, userId: users.id };
   }
 
 
