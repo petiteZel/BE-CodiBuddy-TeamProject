@@ -154,11 +154,17 @@ class UserService {
     // if (!isPasswordSame) {
     //   throw new Error("비밀번호가 일치하지 않습니다.");
     // }
+
     const { pw } = updateData;
     if (pw) {
       const newHashedPassword = await bcrypt.hash(pw, 10);
       updateData.pw = newHashedPassword;
     }
+
+    const updateUserTag = await this.StudyTag.update(updateData.Tag, {
+      where: {
+        study_id: studyId,
+      },})
 
     const userchange = await this.User.update(updateData, {
       where: { id: id },
@@ -166,8 +172,8 @@ class UserService {
       
     });
 
-
-return userchange
+    return [userchange == 1 || updateUserTag == 1];
+//return userchange
 
   }
   catch (err) {

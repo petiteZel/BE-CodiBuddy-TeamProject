@@ -83,33 +83,34 @@ userRouter.get("/", loginRequired, async function (req, res, next) {
 // 회원 정보 수정
 userRouter.patch("/",loginRequired, /*upload.single('profile_image'),*/ async (req, res, next) => {
   try {
-    const { nickname, email, introduce, pw, point } = req.body;
+    const { nickname, email, introduce, pw, point, tag } = req.body;
     //const { checkPassword } = req.body;
 
     // if (!checkPassword) {
     //   throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
     // }
     const id = req.userId;
-    // const profile_image = req.file.location;
+    //const profile_image = req.file.location;
 
     const userInfoRequired = { id, /*checkPassword*/ };
     const updateData = {
       ...(nickname && { nickname }),
       ...(email && { email }),
       ...(introduce && { introduce }),
-      // ...(profile_image && { profile_image }),
+      //...(profile_image && { profile_image }),
       ...(pw && { pw }),
       ...(point && { point }),
     };
 
-    // const userid = newUser.id
-    // await userTagService.addUserTag(tag, userid);
 
+    
     //사용자 정보를 업데이트함.
     const updatedUserInfo = await userService.setUser(
       userInfoRequired,
       updateData
-    );
+      );
+      // const userid = updatedUserInfo.id
+      // await userTagService.addUserTag(tag, userid);
 
     // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
     res.status(200).json(updatedUserInfo);
