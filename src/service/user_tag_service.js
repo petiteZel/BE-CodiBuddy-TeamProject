@@ -1,4 +1,4 @@
-const { User } = require("../db");
+const { UserTag } = require("../db");
 const { Tag } = require("../db/models");
 
 

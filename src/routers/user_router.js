@@ -27,8 +27,8 @@ userRouter.post("/", async (req, res, next) => {
       introduce
     });
     
-    // await userTagService.addUserTag(tag, user_id);
-
+    const userid = newUser.id
+    await userTagService.addUserTag(tag, userid);
 
 
     res.status(201).json(newUser);
