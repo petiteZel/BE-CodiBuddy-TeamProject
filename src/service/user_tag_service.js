@@ -37,7 +37,6 @@ class UserTagService {
           model: Tag,
         },
       });
-      console.log("get 끝");
       return findFromUser;
     }
   

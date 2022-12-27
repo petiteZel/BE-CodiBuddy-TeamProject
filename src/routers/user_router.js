@@ -17,6 +17,7 @@ userRouter.post("/", async (req, res, next) => {
     const introduce = req.body.introduce;
     const tag = req.body.tag;
     
+    
     //위 데이터를 유저 db에 추가하기
     const newUser = await userService.addUser({
       user_id,
@@ -24,6 +25,7 @@ userRouter.post("/", async (req, res, next) => {
       nickname,
       email,
       introduce,
+      profile_image
     });
     
     // await userTagService.addUserTag(tag, user_id);
@@ -81,9 +83,10 @@ userRouter.get("/", loginRequired, async function (req, res, next) {
 //수정해야됨!!!!!!
 // 회원 정보 수정
 // (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)
-userRouter.patch("/", loginRequired, async (req, res, next) => {
+userRouter.patch("/", loginRequired,/*upload.single('profile_image'),*/ async (req, res, next) => {
   try {
     const id = req.userId;
+    // const profile_image = req.file.location;
 
     //사용자 정보를 업데이트함.
     const updatedUserInfo = await userService.setUser(

@@ -17,7 +17,6 @@ class StudyService {
     studyData.end_at = dayjs(startPoint)
       .add(duration, "M")
       .format("YYYY-MM-DD");
-      console.log(userId)
     const finalData = {
       ...studyData,
       author: userId
@@ -28,12 +27,10 @@ class StudyService {
   }
 
   async getAllStudy(queryString) {
-    console.log(queryString);
     const query = {};
     if (queryString.tag) {
       query.tag_id = queryString.tag.split(",").map((e) => Number(e));
     }
-    console.log(query);
     const findAllStudy = await this.Study.findAll({
       where: query,
       include:{

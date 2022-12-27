@@ -36,7 +36,6 @@ class StudyTagService {
         model: Tag,
       },
     });
-    console.log("get 끝");
     return findFromStudy;
   }
 

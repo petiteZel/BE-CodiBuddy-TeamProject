@@ -47,7 +47,6 @@ class CommentService {
       },
     };
     if (queryString.user) {
-      console.log("i have");
       condition.include = {
         model:User,
         attributes:['nickname','profile_image'],
