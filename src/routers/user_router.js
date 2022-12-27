@@ -78,6 +78,25 @@ userRouter.post("/confirm_jwt",loginRequired, async (req, res, next) => {
   }
 });
 
+userRouter.delete("/confirm_jwt",loginRequired, async (req, res, next) => {
+  try {
+    const userId = req.userId;
+    const currentToken = req.body.refresh_token;
+    // 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
+    const newJwt = await userRefreshTokenService.resetJwt(userId, currentToken);
+    if (newJwt) {
+      res.status(200).json({newJwt});
+    } else {
+      res.status(403).json({
+        result: "forbidden-approach",
+        reason: "정상적인 토큰이 아닙니다.",
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 //회원 본인 정보 조회
 userRouter.get("/", loginRequired, async function (req, res, next) {
   try {
@@ -103,8 +122,10 @@ userRouter.patch(
       //   throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
       // }
       const id = req.userId;
-      const profile_image = req.file.location;
-
+      let profile_image = null;
+      if(req.file){
+        profile_image = req.file.location;
+      }
       const userInfoRequired = { id /*checkPassword*/ };
       const updateData = {
         ...(nickname && { nickname }),
