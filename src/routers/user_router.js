@@ -115,9 +115,9 @@ userRouter.patch(
   upload.single("profile_image"),
   async (req, res, next) => {
     try {
-      const { nickname, email, introduce, pw, point } = req.body;
+      const { nickname, email, introduce, pw, point, tag } = req.body;
       //const { checkPassword } = req.body;
-
+      const tagList = tag.split(',')
       // if (!checkPassword) {
       //   throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
       // }
@@ -141,6 +141,9 @@ userRouter.patch(
         userInfoRequired,
         updateData
       );
+
+        await userTagService.deleteUserTag(id)
+        await userTagService.addUserTag(tagList,id)
 
       // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
       res.status(200).json(updatedUserInfo);

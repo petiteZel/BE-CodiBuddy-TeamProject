@@ -63,6 +63,7 @@ class UserTagService {
   
       return deleteMyUserTag;
     }
+
   }
   
   module.exports = new UserTagService(UserTag, Tag);

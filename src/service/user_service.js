@@ -162,9 +162,9 @@ class UserService {
       updateData.pw = newHashedPassword;
     }
 
-    const updateUserTag = await this.StudyTag.update(updateData.Tag, {
+    const updateUserTag = await this.UserTag.update(updateData.Tag, {
       where: {
-        study_id: studyId,
+        user_id: user.id,
       },})
 
     const userchange = await this.User.update(updateData, {
