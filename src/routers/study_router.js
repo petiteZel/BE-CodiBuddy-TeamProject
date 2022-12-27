@@ -12,7 +12,7 @@ studyRouter.post("/", loginRequired, async (req, res, next) => {
     const studyData = req.body.study;
     const tag = req.body.tag;
     const newStudy = await studyService.addStudy(userId,studyData);
-    const studyId = newStudy.dataValues.id;
+    const studyId = newStudy.id;
     await studyTagService.addStudyTag(tag, studyId);
 
     res.status(201).json({'studyId':studyId});
