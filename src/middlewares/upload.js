@@ -11,9 +11,9 @@ const upload = multer({
     acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function (req, file, cb) {
-      cb(null, `${Date.now()}_${file.originalname}`);
+      cb(null, `${Date.now()}_${Math.floor(Math.random() * 100000)}_${file.originalname}`);
     },
   }),
 });
 
-module.exports = { upload };
+module.exports = upload;

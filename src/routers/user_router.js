@@ -1,5 +1,6 @@
 const express = require("express");
 const userRouter = express.Router();
+const upload = require("../middlewares/upload")
 //const { Router } = require("express");
 // 폴더에서 import하면, 자동으로 폴더의 index.js에서 가져옴
 const { loginRequired } = require("../middlewares/login_required");
@@ -79,17 +80,17 @@ userRouter.get("/", loginRequired, async function (req, res, next) {
 
 
 
-
 // 회원 정보 수정
-userRouter.patch("/",loginRequired,/*upload.single('profile_image'),*/ async (req, res, next) => {
+userRouter.patch("/",loginRequired, upload.single('profile_image'), async (req, res, next) => {
   try {
-    const { nickname, email, introduce, profile_image, pw, point } = req.body;
+    const { nickname, email, introduce, pw, point } = req.body;
     //const { checkPassword } = req.body;
 
     // if (!checkPassword) {
     //   throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
     // }
     const id = req.userId;
+    const profile_image = req.file.location;
 
     const userInfoRequired = { id, /*checkPassword*/ };
     const updateData = {
@@ -101,7 +102,6 @@ userRouter.patch("/",loginRequired,/*upload.single('profile_image'),*/ async (re
       ...(point && { point }),
     };
 
-    // const profile_image = req.file.location;
 
     //사용자 정보를 업데이트함.
     const updatedUserInfo = await userService.setUser(
