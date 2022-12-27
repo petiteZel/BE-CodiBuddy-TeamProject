@@ -1,4 +1,3 @@
-const { Study } = require("../db");
 const { StudyTag, Tag } = require("../db/models");
 
 class StudyTagService {
