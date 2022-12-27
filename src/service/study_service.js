@@ -32,25 +32,45 @@ class StudyService {
       tagQuery.tag_id = queryString.tag.split(",").map((e) => Number(e));
     }
 
-    const findAllStudy = await this.Study.findAll({
-      attributes: { exclude: ["author"] },
-      include: [
-        {
-          model: this.StudyTag,
-          where: tagQuery,
-          attributes: ["tag_id"],
-          include: {
-            model: Tag,
+    const findAllStudy = await this.StudyTag.findAll({
+      attributes: ["tag_id"],
+      where: tagQuery,
+      include: {
+        attributes: ["id"],
+        model: this.Study,
+      },
+    })
+      .then((studyDatas) => {
+        const studyIds = [];
+        studyDatas.map((studyData) => {
+          if (!(studyData.Study.id in studyIds)) {
+            studyIds.push(studyData.Study.id);
+          }
+        });
+
+        return studyIds;
+      })
+      .then(async (studyIds) => {
+        const study = await this.Study.findAll({
+          where: {
+            id: studyIds,
           },
-        },
-        {
-          model: User,
-          attributes: ["id", "nickname", "profile_image"],
-        },
-      ],
-    });
-    
-    
+          include: [
+            {
+              model: this.StudyTag,
+              include: {
+                model: Tag,
+              },
+            },
+            {
+              attributes: ["nickname", "profile_image"],
+              model: User,
+            },
+          ],
+        });
+        return study;
+      });
+
     return findAllStudy;
   }
 
@@ -70,36 +90,40 @@ class StudyService {
           model: this.StudyTag,
         },
       },
-    }).then((studyDatas)=>{
-      const studyIds = []
-      studyDatas.map((studyData)=>{
-        const studyIdDatas = studyData.Tag.StudyTags;
-        studyIdDatas.map((studyId)=>{
-          if(!(studyId.study_id in studyIds)){
-            studyIds.push(studyId.study_id)
-          }
-        })
-      })
+    })
+      .then((studyDatas) => {
+        const studyIds = [];
+        studyDatas.map((studyData) => {
+          const studyIdDatas = studyData.Tag.StudyTags;
+          studyIdDatas.map((studyId) => {
+            if (!(studyId.study_id in studyIds)) {
+              studyIds.push(studyId.study_id);
+            }
+          });
+        });
 
-      return studyIds
-    }).then(async (studyIds)=>{
-      const study = await this.Study.findAll({
-        where:{
-          id: studyIds
-        },
-        include:[{
-          model:this.StudyTag,
-          include:{
-            model:Tag
-          }
-        },{
-          attributes:['nickname','profile_image'],
-          model:User
-        }]
+        return studyIds;
       })
-      return study
-    }
-    )
+      .then(async (studyIds) => {
+        const study = await this.Study.findAll({
+          where: {
+            id: studyIds,
+          },
+          include: [
+            {
+              model: this.StudyTag,
+              include: {
+                model: Tag,
+              },
+            },
+            {
+              attributes: ["nickname", "profile_image"],
+              model: User,
+            },
+          ],
+        });
+        return study;
+      });
     return tagby;
   }
 
