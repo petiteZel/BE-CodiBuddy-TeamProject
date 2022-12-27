@@ -8,7 +8,7 @@ class UserRefreshTokenService {
     this.Token = Token_model;
   }
 
-  //코멘트 추가
+  //토큰 추가
   async addToken(userId) {
     try {
       const len = 50;
@@ -17,7 +17,7 @@ class UserRefreshTokenService {
       let token = "";
       for (var i = 0; i < len; i++)
         token += possible.charAt(Math.floor(Math.random() * possible.length));
-        
+
       const now = dayjs();
       const createToken = await this.Token.create({
         user_id: userId,
