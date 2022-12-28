@@ -161,7 +161,7 @@ userRouter.patch(
       };
 
       //사용자 정보를 업데이트함.
-      const updatedUserInfo = await userService.setUser(
+      const updatedUserInfo = await userService.setUserPoint(
         userInfoRequired,
         updateData
       );
