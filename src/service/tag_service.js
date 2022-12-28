@@ -6,10 +6,17 @@ class TagService {
     this.TagKind = Tag_kind_model;
   }
 
-  async getTag() {
+  async getTag(kind) {
+    const kindBy = {}
+    if(kind!=='all'){
+      kindBy.where={
+        kind:kind
+      }
+    }
     const findAllTag = this.Tag.findAll({
       include:{
-        model:TagKind
+        model:TagKind,
+        ...kindBy
       }
     });
 
