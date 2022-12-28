@@ -195,22 +195,15 @@ class StudyService {
 
   //내 모임 수정
   async patchMyStudy(userId, studyId, updateData) {
-    const updateStudy = await this.Study.update(updateData.Study, {
+    const updateStudy = await this.Study.update(updateData, {
       where: {
         id: studyId,
         author: userId,
       },
     });
-    if (updateStudy) {
-      const updateStudyTag = await this.StudyTag.update(updateData.Tag, {
-        where: {
-          study_id: studyId,
-        },
-      });
 
-      return [updateStudy == 1 || updateStudyTag == 1];
+      return updateStudy;
     }
-  }
 
   //참가중인 스터디
   async getMyAttendingStudy(userId) {

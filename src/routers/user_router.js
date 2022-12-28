@@ -83,15 +83,8 @@ userRouter.delete("/confirm_jwt",loginRequired, async (req, res, next) => {
     const userId = req.userId;
     const currentToken = req.body.refresh_token;
     // 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
-    const newJwt = await userRefreshTokenService.resetJwt(userId, currentToken);
-    if (newJwt) {
-      res.status(200).json({newJwt});
-    } else {
-      res.status(403).json({
-        result: "forbidden-approach",
-        reason: "정상적인 토큰이 아닙니다.",
-      });
-    }
+    const deleteToken = await userRefreshTokenService.deleteMyToken(userId,currentToken);
+    res.status(200).json(deleteToken);
   } catch (error) {
     next(error);
   }
