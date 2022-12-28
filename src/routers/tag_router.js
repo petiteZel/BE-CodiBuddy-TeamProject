@@ -4,9 +4,10 @@ const tagRouter = express.Router();
 const { tagService } = require("../service");
 
 //태그 조회하기
-tagRouter.get("/", async (req, res, next) => {
+tagRouter.get("/:kind", async (req, res, next) => {
     try {
-      const tag = await tagService.getTag();
+      const kind = req.params.kind;
+      const tag = await tagService.getTag(kind);
   
       res.status(200).json(tag);
     } catch (error) {

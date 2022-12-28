@@ -6,10 +6,17 @@ class TagService {
     this.TagKind = Tag_kind_model;
   }
 
-  async getTag() {
+  async getTag(kind) {
+    const kindBy = {}
+    if(kind!=='all'){
+      kindBy.where={
+        kind:kind
+      }
+    }
     const findAllTag = this.Tag.findAll({
       include:{
-        model:TagKind
+        model:TagKind,
+        ...kindBy
       }
     });
 
@@ -322,16 +329,6 @@ class TagService {
       },
     ];
 
-    // const createRecruit = await this.Recruit.findOrCreate({
-    //   where:{
-    //     user_id: userId,
-    //     study_id: studyId,
-    //   },
-    //   defaults:{
-    //     user_id:userId,
-    //     study_id:studyId
-    //   }
-    // });
     const createTag = data.map(async (tagData)=>{
       const tagid = await this.Tag.create(tagData.tag);
       tagData.kind.map(async (kindData)=>{
