@@ -153,6 +153,35 @@ userRouter.patch(
   }
 );
 
+
+// 결제시 포인트 차감
+userRouter.patch(
+  "/payment",
+  loginRequired,
+  async (req, res, next) => {
+    try {
+      const { point } = req.body;
+      const id = req.userId;
+      const userInfoRequired = { id };
+      const updateData = {
+        ...(point && { point }),
+      };
+
+      //사용자 정보를 업데이트함.
+      const updatedUserInfo = await userService.setUser(
+        userInfoRequired,
+        updateData
+      );
+
+      // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
+      res.status(200).json(updatedUserInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
 //회원탈퇴
 userRouter.delete("/", loginRequired, async function (req, res, next) {
   try {
