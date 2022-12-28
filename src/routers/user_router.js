@@ -109,17 +109,17 @@ userRouter.patch(
   async (req, res, next) => {
     try {
       const { nickname, email, introduce, pw, point, tag } = req.body;
-      //const { checkPassword } = req.body;
+      const { checkPassword } = req.body;
       const tagList = tag.split(',')
-      // if (!checkPassword) {
-      //   throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
-      // }
+      if (!checkPassword) {
+        throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
+      }
       const id = req.userId;
       let profile_image = null;
       if(req.file){
         profile_image = req.file.location;
       }
-      const userInfoRequired = { id /*checkPassword*/ };
+      const userInfoRequired = { id, checkPassword };
       const updateData = {
         ...(nickname && { nickname }),
         ...(email && { email }),
