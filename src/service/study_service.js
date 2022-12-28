@@ -43,11 +43,10 @@ class StudyService {
       .then((studyDatas) => {
         const studyIds = [];
         studyDatas.map((studyData) => {
-          if (!(studyData.Study.id in studyIds)) {
+          if (!(studyIds.includes(studyData.Study.id))) {
             studyIds.push(studyData.Study.id);
           }
         });
-
         return studyIds;
       })
       .then(async (studyIds) => {
@@ -77,6 +76,21 @@ class StudyService {
   //인기/프론트/백/모바일/기타
   //tagKind에서 tagId 다 추출 -> tagId로 studyTag 가져오기 -> studyId로 study 가져오기 (includ)
   async studyByKind(kind) {
+    // const positionByStudy = await this.Study.findAll({
+    //   where: {
+    //     position: kind,
+    //   },
+    //   include: [
+    //     {
+    //       model: StudyTag,
+    //       include: {
+    //         model: Tag,
+    //       },
+    //     },
+    //     { model: User },
+    //   ],
+    // });
+    // return positionByStudy;
     const tagby = await this.TagKind.findAll({
       attributes: ["tag_id"],
       where: {
@@ -202,8 +216,8 @@ class StudyService {
       },
     });
 
-      return updateStudy;
-    }
+    return updateStudy;
+  }
 
   //참가중인 스터디
   async getMyAttendingStudy(userId) {

@@ -322,16 +322,6 @@ class TagService {
       },
     ];
 
-    // const createRecruit = await this.Recruit.findOrCreate({
-    //   where:{
-    //     user_id: userId,
-    //     study_id: studyId,
-    //   },
-    //   defaults:{
-    //     user_id:userId,
-    //     study_id:studyId
-    //   }
-    // });
     const createTag = data.map(async (tagData)=>{
       const tagid = await this.Tag.create(tagData.tag);
       tagData.kind.map(async (kindData)=>{
