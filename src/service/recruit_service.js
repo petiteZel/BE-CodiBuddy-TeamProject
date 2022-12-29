@@ -11,7 +11,7 @@ class RecruitService {
     //study 모집 인원수 체크 및 + 1
     try{
       const limitHeadCount = await this.Study.findOne({
-        attributes:['limit_head_count'],
+        attributes:['limit_head_count','head_count'],
         where:{
           id:studyId
         }
@@ -40,7 +40,10 @@ class RecruitService {
         });
         return createRecruit;
       }else{
-        return updateHeadCount
+        if(limitHeadCount.limit_head_count == limitHeadCount.head_count){
+          return 406
+        }
+        return 405
       }
   }catch(err){
       console.log(err)
