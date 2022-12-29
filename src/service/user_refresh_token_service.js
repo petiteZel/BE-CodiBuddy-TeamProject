@@ -43,11 +43,10 @@ class UserRefreshTokenService {
   }
 
   //jwt 만료시 rt확인 및 jwt 생성
-  async resetJwt(userId, refresh_token) {
+  async resetJwt(refresh_token) {
     const now = dayjs();
     const confirmRefreshToken = await this.Token.findOne({
       where: {
-        user_id: userId,
         refresh_token: refresh_token,
         expired_at: {
           [Op.gte]: now.format("YYYY-MM-DD"),
