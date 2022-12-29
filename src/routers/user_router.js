@@ -59,9 +59,9 @@ userRouter.post("/login", async (req, res, next) => {
   }
 });
 
-userRouter.post("/confirm_jwt",loginRequired, async (req, res, next) => {
+userRouter.post("/confirm_jwt", async (req, res, next) => {
   try {
-    const userId = req.userId;
+    const userId = req.body.user_id;
     const currentToken = req.body.refresh_token;
     // 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
     const newJwt = await userRefreshTokenService.resetJwt(userId, currentToken);
