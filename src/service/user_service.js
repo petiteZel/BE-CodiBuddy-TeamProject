@@ -3,6 +3,7 @@ const { UserTag } = require("../db/models");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 
+
 class UserService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor(user_model, user_tag_model) {
@@ -85,7 +86,8 @@ class UserService {
     }
 
   //   // 로그인 성공 -> JWT 웹 토큰 생성
-    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+    const secretKey = process.env.JWT_SECRET_KEY
+
   //   // 2개 프로퍼티를 jwt 토큰에 담음
     const token = jwt.sign({ userId: users.dataValues.id, exp: Math.floor(Date.now()/1000)+(60*60) }, secretKey);
     

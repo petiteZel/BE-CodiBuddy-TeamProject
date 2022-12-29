@@ -3,6 +3,7 @@ const { UserRefreshToken } = require("../db/models");
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 
+
 class UserRefreshTokenService {
   constructor(Token_model) {
     this.Token = Token_model;
@@ -54,7 +55,7 @@ class UserRefreshTokenService {
       },
     });
     if (confirmRefreshToken) {
-      const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+      const secretKey = process.env.JWT_SECRET_KEY
 
       const token = jwt.sign(
         {
