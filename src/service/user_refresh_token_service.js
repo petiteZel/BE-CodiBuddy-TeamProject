@@ -60,7 +60,7 @@ class UserRefreshTokenService {
       const token = jwt.sign(
         {
           userId: userId,
-          exp: Math.floor(Date.now() / 1000) + 60 * 60,
+          exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
         },
         secretKey
       );
