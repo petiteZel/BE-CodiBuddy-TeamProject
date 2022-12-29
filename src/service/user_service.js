@@ -155,7 +155,7 @@ class UserService {
     );
 
     if (!isPasswordSame) {
-      throw new Error("비밀번호가 일치하지 않습니다.");
+      throw new Error("현재 비밀번호가 일치하지 않습니다.");
     }
 
     const { pw } = updateData;
