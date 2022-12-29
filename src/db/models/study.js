@@ -1,15 +1,45 @@
 const Sequelize = require('sequelize');
 
-module.exports = class User extends Sequelize.Model {
+module.exports = class Study extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
+      id:{
+        type: Sequelize.INTEGER,
+        allowNull:false,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      visit_count: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      author: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      head_count: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      limit_head_count: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       start_at: {
         type: Sequelize.DATEONLY,
         allowNull: false,
+        validate: {
+          isDate: true
+        }
       },
       end_at: {
         type: Sequelize.DATEONLY,
         allowNull: false,
+        validate: {
+          isDate: true
+        }
       },
       is_online: {
         type: Sequelize.BOOLEAN,
@@ -33,7 +63,7 @@ module.exports = class User extends Sequelize.Model {
       },
     }, {
       sequelize,
-      timestamps: false, //creatat+delete
+      timestamps: true, //creatat+delete
       underscored: true, //스네이크케이스로 이름변경
       modelName: 'Study',
       tableName: 'studies',
@@ -44,9 +74,16 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db){
-    db.Study.hasMany(db.Study_tag, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.Study.hasMany(db.StudyTag, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.StudyTag.belongsTo(db.Study,{onDelete:'cascade'})
     db.Study.hasMany(db.Like, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.Like.belongsTo(db.Study,{onDelete:'cascade'})
     db.Study.hasMany(db.Recruit, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.Recruit.belongsTo(db.Study,{onDelete:'cascade'})
+    db.Study.hasMany(db.Comment, { foreignKey: 'study_id', sourceKey: 'id'});
+    db.Comment.belongsTo(db.Study,{onDelete:'cascade'})
+    
+    // db.User.belongsTo(db.Study)
   }
 
 };

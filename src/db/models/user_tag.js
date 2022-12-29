@@ -1,24 +1,28 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Study_tag extends Sequelize.Model {
+module.exports = class UserTag extends Sequelize.Model {
     static init(sequelize) {
       return super.init({
+        id:{
+          type: Sequelize.INTEGER,
+          allowNull:false,
+          primaryKey: true,
+          autoIncrement: true,
+        },
         tag_id: {
             type: Sequelize.INTEGER,
             allowNull: false,
-            primaryKey: true
         },
-        study_id: {
+        user_id: {
             type: Sequelize.INTEGER,
             allowNull: false,
-            primaryKey: true
         },
       }, {
       sequelize,
       timestamps: false, //creatat+delete
       underscored: true, //스네이크케이스로 이름변경
-      modelName: 'Study_tag',
-      tableName: 'study_tags',
+      modelName: 'UserTag',
+      tableName: 'usertags',
       paranoid: false, //삭제시 완전삭제x -> 로그남김
       charset: 'utf8',
       collate: 'utf8_general_ci',

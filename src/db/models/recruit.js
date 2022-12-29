@@ -1,17 +1,19 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Like extends Sequelize.Model {
+module.exports = class Recruit extends Sequelize.Model {
     static init(sequelize) {
       return super.init({
+        id:{
+          type: Sequelize.INTEGER,
+          allowNull:false,
+          primaryKey: true,
+          autoIncrement: true,
+        },
         user_id: {
             type: Sequelize.INTEGER,
-            allowNull: false,
-            primaryKey: true
         },
         study_id: {
             type: Sequelize.INTEGER,
-            allowNull: false,
-            primaryKey: true
         },
         payment_status: {
             type: Sequelize.ENUM('예정','승인','거절','완료'),
