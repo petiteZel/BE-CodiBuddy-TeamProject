@@ -186,7 +186,31 @@ class UserService {
 
 
 
+// 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
+async setUserPoint(userInfoRequired, updateData) {
+  // 객체 destructuring
+  try {
+    const { id } = userInfoRequired;
+    const user = await this.User.findOne({
+      where: { id: id },
+    });
+    if (!user) {
+      throw new Error("가입내역이 없습니다.");
+    }
 
+    const userchange = await this.User.update(updateData, {
+      where: { id: id },
+      
+    });
+
+    return userchange
+//return userchange
+
+  }
+  catch (err) {
+    console.log("err", err);
+  }
+}
 
 
   //특정 유저 삭제
